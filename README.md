@@ -1,23 +1,29 @@
-# TTF-Steganography
-A pure-python module to apply Least Significant Bit(s) Steganography to TrueType font files
+# Stegosphere
+A flexible, highly modular steganography library for all NumPy-convertible file types including encryption and compression, with an optional C backend.
 
+### Image steganography
+For image steganography, LSB (Least Significant Bit) and PVD (Pixel Value Differencing) steganography are currently available.
+```
+import image
 
-Hide binary data to a file:
-```
-ttf_file = LSB(ttf_path)
-ttf_file.hide(your_binary_data, path_to_hide) 
-```
-Recover binary data from a file:
-```
-ttf_file = LSB(ttf_path)
-your_binary_data = ttf_file.recover()
-```
+img = image.LSB('image.png')
+img.encode('Encoded message!', seed=42, method='delimiter', compress=False)
+img.save('stego_image.png')
 
-The module uses LSB to hide the data, further methods like Value Differencing will be added soon.
-If you want to hide more than one bit per coordinate, use the parameter 'change':
+steg_img = image.LSB('stego_image.png')
+print(steg_img.decode(seed=42, method='delimiter', compress=False))
+#Expected output: 'Encoded message!'
 ```
-ttf_file.hide(your_binary_data, path_to_hide, change=3)
+### Audio steganography
+For audio steganography, LSB (Least Significant Bit) and FVD (Frequency Value Differencing) steganography are currently available.
 ```
-Now the last three bits will be changed, which shouldn't be detectable to the human eye.
+import audio
 
-If you need to hide/recover more than 1MB (or 2^23 bits), set META_DATA_LENGTH higher.
+audio = audio.FVD('audio.wav')
+bin_image = audio.file_to_binary('image.png')
+audio.encode(bin_image)
+audio.save('steg_audio.wav')
+
+steg_audio = audio.LSB('steg_audio.wav')
+audio.binary_to_file(steg_audio.decode(), 'recovered_image.png')
+```
