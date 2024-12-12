@@ -1,5 +1,7 @@
 # Stegosphere
 A flexible, highly modular steganography library for all NumPy-convertible file types including encryption and compression, with an optional C backend.
+An initial documentation is available here: https://maximilian-koch.github.io/stegosphere/stegosphere.html#submodules
+
 
 ### Image steganography
 For image steganography, LSB (Least Significant Bit) and PVD (Pixel Value Differencing) steganography are currently available.
