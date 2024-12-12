@@ -1,0 +1,7 @@
+stegosphere.image module
+========================
+
+.. automodule:: stegosphere.image
+   :members:
+   :undoc-members:
+   :show-inheritance:

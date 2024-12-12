@@ -1,0 +1,24 @@
+stegosphere package
+===================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   stegosphere.audio
+   stegosphere.compression
+   stegosphere.crypt
+   stegosphere.image
+   stegosphere.spatial
+   stegosphere.ttf
+   stegosphere.utils
+
+Module contents
+---------------
+
+.. automodule:: stegosphere
+   :members:
+   :undoc-members:
+   :show-inheritance:

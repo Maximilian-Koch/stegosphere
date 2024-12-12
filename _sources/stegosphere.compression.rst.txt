@@ -1,0 +1,7 @@
+stegosphere.compression module
+==============================
+
+.. automodule:: stegosphere.compression
+   :members:
+   :undoc-members:
+   :show-inheritance:

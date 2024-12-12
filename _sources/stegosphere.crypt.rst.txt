@@ -1,0 +1,7 @@
+stegosphere.crypt module
+========================
+
+.. automodule:: stegosphere.crypt
+   :members:
+   :undoc-members:
+   :show-inheritance:

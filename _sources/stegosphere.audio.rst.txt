@@ -1,0 +1,7 @@
+stegosphere.audio module
+========================
+
+.. automodule:: stegosphere.audio
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+stegosphere.spatial module
+==========================
+
+.. automodule:: stegosphere.spatial
+   :members:
+   :undoc-members:
+   :show-inheritance:
