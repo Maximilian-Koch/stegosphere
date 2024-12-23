@@ -9,10 +9,12 @@ except:
 
 from utils import *
 from spatial import BaseLSB, BaseVD
+from transform import BaseIWT
+import core
 
 __all__ = ['CustomTable', 'LSB']
 
-class TTF(File):
+class TTF(core.Container):
     def __init__(self, font, load_glyphs=True):
         super().__init__(font)
         #some subclasses do not require the glyphs
@@ -46,6 +48,8 @@ class TTF(File):
     
     def _read_file(self, path):
         self.font = TTFont(path)
+    def _flush_file(self):
+        self.flush()
     def _save_file(self, path):
         self.font.save(path)
 
