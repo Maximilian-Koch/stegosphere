@@ -1,52 +1,19 @@
 import numpy as np
 import math
-import itertools
 import os
 import warnings
 
-import utils
 import compression
 from utils import *
+import utils
+import core
+from analysis import Analysis
 
-__all__ = ['BaseLSB','BaseVD','CrossVD']
 
-class BaseCoder:
-    def __init__(self):
-        pass
-    def _encode_message(self, message, method, metadata_length, delimiter_message, compress):
-        message_format = utils.check_type(message)
-        if message_format == 1:
-            #Hex messages are a common output after encryption, thus treated specifically
-            message = hex_to_binary(message)
-        elif message_format == 2:
-            message = data_to_binary(message)
-
-        if compress:
-            previous_length = len(message)
-            message = compression.compress(message)
-            after_length = len(message)
-            if after_length > previous_length:
-                warnings.warn('message length increased due to compression. That might be the case for already compressed data.')
-            
-        if method == 'delimiter':
-            if not is_binary(delimiter_message):
-                delimiter_message = data_to_binary(delimiter_message)
-            message += delimiter_message
-        elif method == 'metadata':
-            message = f"{len(message):0{metadata_length}b}" + message
-        elif method is not None:
-            raise Exception('Method must be either delimiter, metadata or None.')
-        
-        if method == 'delimiter':
-            assert message.count(delimiter_message)==1, Exception('Delimiter appears in data. Use another delimiter or change data minimally.')
-        
-        return message
-    def _decode_message(self, seed, method, metadata_length, delimiter_message):
-        #check arguments
-        pass
+__all__ = ['BaseLSB','BaseVD']
 
         
-class BaseVD(BaseCoder):
+class BaseVD(core.StegMethod):
     """
     BaseVD provides functionality for encoding and decoding data using Value Differencing steganography.
     It is an adapted and generalised version of the Pixel Value Differencing method as proposed by
@@ -61,8 +28,11 @@ class BaseVD(BaseCoder):
     :param depth: number of channels per value
     :type depth: int
     """
-    def __init__(self, obj, pos_dim=2, depth=3):
-        super().__init__()
+    def __init__(self, obj, pos_dim=2, depth=3, analysis=utils.ANALYSIS):
+        self._analysis = analysis
+        if self._analysis:
+            self.analysis = Analysis(obj.copy())
+            
         self.data = obj
         self.pos_dim = pos_dim
         self.depth = depth
@@ -71,14 +41,7 @@ class BaseVD(BaseCoder):
         self.ranges = self.define_range(self.data.dtype)
 
     def define_range(self, dtype):
-        if np.issubdtype(dtype, np.integer):
-            info = np.iinfo(dtype)
-        elif np.issubdtype(dtype, np.floating):
-            info = np.finfo(dtype)
-        else:
-            raise Exception('array dtype must be integer or float.')
-        
-        min_value, max_value = info.min, info.max
+        min_value, max_value = utils.dtype_range(dtype)
         max_value += abs(min_value)
         min_value = 0
         lower = 2**self._range_offset - 1
@@ -131,7 +94,7 @@ class BaseVD(BaseCoder):
         :return: True, if it worked.
         :rtype: bool
         """
-        message = self._encode_message(message, method, metadata_length, delimiter_message, compress)
+        message = utils.encode_message(message, method, metadata_length, delimiter_message, compress)
         value_pairs = self._get_pairs(seed)
         message_index = 0
         max_len = len(message)
@@ -184,6 +147,10 @@ class BaseVD(BaseCoder):
                     else:
                         
                         continue  # Skip if pixel values go out of bounds
+
+        if self._analysis:
+            self.analysis.after = self.data.reshape(self.analysis.before.shape)
+            
         return True
     def decode(self, seed=None, method='metadata', metadata_length=METADATA_LENGTH_LSB,
                delimiter_message=DELIMITER_MESSAGE, compress=False):
@@ -248,27 +215,32 @@ class BaseVD(BaseCoder):
             raise Exception('Method must be either delimiter, metadata, or None.')
 
         if compress:
-            message = compression.decompress(message)
+            message = compression.binary_decompress(message, compress)
         
         return message
 
     
-class BaseLSB(BaseCoder):
+class BaseLSB(core.StegMethod):
     """
     BaseLSB provides functionality for encoding and decoding data using Least Significant Bit (LSB) steganography.
 
     :param obj: The data object (NumPy array) where the message will be encoded/decoded.
     :type obj: numpy.ndarray
     """
-    def __init__(self, obj):
+    def __init__(self, data, analysis=utils.ANALYSIS):
         """
         Initializes the BaseLSB encoder/decoder.
 
         :param obj: The data object (NumPy array) where the message will be encoded or decoded.
         :type obj: numpy.ndarray
         """
-        super().__init__()
-        self.data = obj.flatten().astype(np.int32)
+        self._analysis = analysis
+        if self._analysis:
+            self.analysis = Analysis(data.copy())
+            
+        self.data = data
+
+            
     def max_capacity(self, bits=1):
         """
         Calculates the maximum capacity of the cover object for embedding a message.
@@ -280,7 +252,7 @@ class BaseLSB(BaseCoder):
         :return: The maximum capacity of the object in bits.
         :rtype: int
         """
-        return len(self.data) * bits
+        return np.prod(self.data.shape) * bits
     def encode(self, message, matching=False, seed=None, bits=1,
                method='metadata', metadata_length=METADATA_LENGTH_LSB,
                delimiter_message=DELIMITER_MESSAGE, compress=False):
@@ -313,9 +285,12 @@ class BaseLSB(BaseCoder):
         """
         if matching is not False: raise NotImplementedError("LSB matching not implemented in current version.")
         
-        message = self._encode_message(message, method, metadata_length, delimiter_message, compress)
+        message = utils.encode_message(message, method, metadata_length, delimiter_message, compress)
         if len(message) > self.max_capacity(bits):
             warnings.warn("Insufficient bits, need larger cover or smaller message.")
+
+        orig_dim = self.data.shape
+        self.data = self.data.flatten().astype(np.int32)
 
         mask = (1<<bits)-1
         message_array = utils.parse_message(message, bits)
@@ -326,6 +301,12 @@ class BaseLSB(BaseCoder):
             indices = np.arange(message_length)
         self.data[indices[:message_length]] &= ~mask
         self.data[indices[:message_length]] |= message_array
+
+        if self._analysis:
+            self.analysis.after = self.data.reshape(self.analysis.before.shape)
+
+        self.data = self.data.reshape(orig_dim)
+        
         return True
     def decode(self, matching=False, seed=None, bits=1,
                method='metadata', metadata_length=METADATA_LENGTH_LSB,
@@ -355,6 +336,10 @@ class BaseLSB(BaseCoder):
         :rtype: str or tuple
         """
         if matching is not False: raise NotImplementedError("LSB matching not implemented in current version.")
+
+
+        orig_dim = self.data.shape
+        self.data = self.data.flatten().astype(np.int32)
         
         mask = (1<<bits)-1
         message_bits = ''
@@ -386,6 +371,9 @@ class BaseLSB(BaseCoder):
                 if message_bits.endswith(delimiter):
                     message_bits = message_bits[:-len(delimiter)]
                     break
+                
         if compress:
-            message_bits = compression.decompress(message_bits)
+            message_bits = compression.binary_decompress(message_bits, compress)
+
+        self.data = self.data.reshape(orig_dim)
         return message_bits
