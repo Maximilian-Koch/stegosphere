@@ -1,7 +1,8 @@
 # Stegosphere
-A flexible, highly modular steganography library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
+A flexible, highly modular steganography and steganalysis library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
 
-An initial documentation is available here: https://maximilian-koch.github.io/stegosphere/stegosphere.html#submodules
+It is meant to be usable for research by combining steganography and steganalysis, see [Research toolbox](#research-toolbox).
+
 
 # Table of contents
 1. [General usage](#general)
@@ -13,16 +14,17 @@ An initial documentation is available here: https://maximilian-koch.github.io/st
 7. [Compression and Encryption](#compression-and-encryption)
 8. [Additional parameters](#additional-parameters)
 9. [More file types](#more-file-types)
-10. [Contributing](#contributing)
+10. [Research toolbox](#research-toolbox)
+11. [Contributing](#contributing)
 
 ## General
 The library was developed to allow for generalisation and compatability of different steganographical methods across file types.
 The base steganography classes define steganography on top of numpy arrays, while the implementations for different file types primarily aid in converting between the file type and numpy arrays.
 
-Currently, methods for image, audio, ttf and cross-file steganography are implemented.
+Currently, methods for image, audio, ttf and multi-file steganography are implemented.
 
 ## Image steganography
-For image steganography, LSB (Least Significant Bit) and PVD (Pixel Value Differencing) steganography are currently available.
+For image steganography, LSB (Least Significant Bit), PVD (Pixel Value Differencing) and IWT (Integer Wavelet Transform) steganography are currently available.
 
 The example below loads an image, randomly distributes the message across the image using a seed and saves it.
 ```python
@@ -38,8 +40,8 @@ print(image.binary_to_data(decoded_bits))
 #Expected output: 'Encoded message!'
 ```
 For additional parameters, see the chapter on [parameters](#additional-parameters).
-### Audio steganography
-For audio steganography, LSB (Least Significant Bit) and FVD (Frequency Value Differencing) steganography are currently available.
+## Audio steganography
+For audio steganography, LSB (Least Significant Bit), FVD (Frequency Value Differencing) and IWT (Integer Wavelet Transform) steganography are currently available.
 The example below loads an audio and encodes the file `image.png` into the audio. The image is then recovered and saved.
 ```python
 from stegosphere import audio
@@ -70,8 +72,8 @@ recover_font = ttf.CustomTable('stegano_font.ttf')
 print(recover_font.decode(table_name='STEG'))
 ```
 
-## Multimedia steganography
-It is also possible to divide the payload across different files. For now only even distribution is possible.
+## Multifile steganography
+It is also possible to divide the payload across different files.
 Different methods and parameters can be used for each file where data is being encoded.
 
 ```python
@@ -90,7 +92,6 @@ audio_encode = lambda message: fvd_audio.encode(message, seed=21)
 #with the data being randomly distributed using a seed.
 split_encode(data, [image_encode,audio_encode], seed=100)
 
-
 lsb_img.save('multimedia_stego.png')
 fvd_audio.save('mutlimedia_stego.wav')
 
@@ -104,6 +105,8 @@ output = split_decode([image_decode, audio_decode], seed=100)
 
 print(output==data)
 ```
+The payload can be distributed evenly (default setting),
+using weighted distribution or roundrobin.
 
 ## File handling
 Several functions for file handling are provided.
@@ -119,13 +122,14 @@ stegosphere.binary_to_data(binary) --> converts a binary string into a readable 
 
 ## Compression and encryption
 Additionally, compression and encryption are provided.
-Compression can be used by setting `compress=True` when encoding/decoding. The given message will then be (de)compressed using lzma.
+Compression can be used by setting `compress='lzma'` when encoding/decoding. The given message will then be (de)compressed using lzma.
 
+Compression can also be used on its own, by using `compression.compress`/`compression.decompress`. `lzma`and `deflate` algorithm are currently available.
 
 ## Additional parameters
 | Parameter     | Available for     | Effect     |
 |--------------|--------------|--------------|
-| `seed`  | LSB, VD, multimedia  | Distributes payload pseudorandomly across the file. Reduces detectability drastically.  |
+| `seed`  | LSB, VD, multifile  | Distributes payload pseudorandomly across the file. Reduces detectability drastically.  |
 | `matching`  | in development for LSB  | less detectable way of adapting bits in LSB  |
 | `bits` | LSB  | increases capacity, increases detectability  |
 | `method`  | LSB, VD  | The method to detect end of message when decoding. Either 'delimiter', 'metadata' or None.  |
@@ -134,11 +138,39 @@ Compression can be used by setting `compress=True` when encoding/decoding. The g
 | `compress`  | LSB, VD  | Compress message to save space when encoding.  |
 
 ## More file types
-Any file types which can be read or converted as a numpy array can be used for some of the steganographic methods, which are implemented in `stegosphere.spatial`.
+Any file types which can be read or converted as a numpy array can be used for some of the steganographic methods, which are implemented in `stegosphere.spatial` and `stegosphere.transform`.
+
+## Research toolbox
+The steganography and steganalysis modules can be combined to create research pipelines.
+Below is an example of applying LSB on the high-detail Wavelet coefficients of two images and storing their stats.
+```python
+import pandas as pd
+
+import image
+import analysis
+
+files = ['image_1.png','image_2.png']
+payload = analysis.generate_binary_payload(10000)
+
+df = pd.DataFrame(columns=['mse','psnr'])
+for file in files:
+    dct = image.IWT(file)
+    dct.transform()
+
+    lsb = image.LSB(dct[('1','1')])
+    lsb.encode(payload)
+
+    dct[('1','1')] = lsb.data
+    dct.inverse()
+
+    df.loc[file] = dct.analysis.mse(), dct.analysis.psnr()
+
+print(df)
+```
 
 ## Contributing
 Any support or input is always welcomed.
-Additional file type support and general methods are needed.
+Additional general methods are much needed.
 
 Contact:
 email: maximilian.koch@student.uva.nl
