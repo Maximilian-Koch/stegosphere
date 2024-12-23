@@ -5,6 +5,8 @@ import re
 import ctypes
 import warnings
 
+import compression
+
 DELIMITER_MESSAGE = '###END###'
 #32 bit for metadata length should be sufficient for almost all usecases
 #Set higher if hidden message exceeds ~0.5GB
@@ -14,90 +16,48 @@ METADATA_LENGTH_AUDIO = 32
 METADATA_LENGTH_VIDEO = 32
 METADATA_LENGTH_LSB = 32
 
+ANALYSIS = True
+
 C_AVAILABLE = True
+so_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "c_steg.so")
 try:
-    backend = ctypes.CDLL('./c_steg.so')
+    backend = ctypes.CDLL(so_file_path)
     backend.parse_binary_message.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.POINTER(ctypes.c_int), ctypes.c_int]
     backend.generate_message_bits.argtypes = [ctypes.POINTER(ctypes.c_int32), ctypes.c_int, ctypes.c_int, ctypes.c_char_p]
     backend.generate_message_bits.restype = None
 except:
     warnings.warn('C backend could not be loaded. Methods will use slower Python.')
     C_AVAILABLE = False
+
+
+def encode_message(message, method, metadata_length, delimiter_message, compress):
+    message_format = check_type(message)
+    if message_format == 1:
+        #Hex messages are a common output after encryption, thus treated specifically
+        message = hex_to_binary(message)
+    elif message_format == 2:
+        message = data_to_binary(message)
+
+    if compress:
+        previous_length = len(message)
+        message = compression.binary_compress(message, compress)
+        after_length = len(message)
+        if after_length > previous_length:
+            warnings.warn('message length increased due to compression. That might be the case for already compressed data.')
+        
+    if method == 'delimiter':
+        if not is_binary(delimiter_message):
+            delimiter_message = data_to_binary(delimiter_message)
+        message += delimiter_message
+    elif method == 'metadata':
+        message = f"{len(message):0{metadata_length}b}" + message
+    elif method is not None:
+        raise Exception('Method must be either delimiter, metadata or None.')
     
-class File:
-    """
-    A superclass for handling file data in various formats.
-    Provides common functionality for reading, saving, and reshaping data.
-
-    :param data: The file data, either a NumPy array, file path, or list/tuple.
-    :type data: numpy.ndarray, str, list, or tuple
-    """
-    def __init__(self, data):
-        self._shape = None
-        self.data = self.read(data)
-        if hasattr(self.data, 'shape'):
-            self._shape = self.data.shape
-
-    def read(self, data):
-        """
-        Reads and returns data from various sources such as NumPy arrays, file paths, or lists/tuples.
-
-        :param data: Data source, either a file path, NumPy array, or list/tuple.
-        :type data: str, numpy.ndarray, list, or tuple
-        :return: Data as a NumPy array.
-        :rtype: numpy.ndarray
-        """
-        if isinstance(data, np.ndarray):
-            return data
-        elif os.path.isfile(data):
-            return self._read_file(data)  # Specific file reading logic in subclass
-        elif isinstance(data, (list, tuple)):
-            return np.array(data)
-        else:
-            raise Exception(f'{self.__class__.__name__} format not supported')
-
-    def flush(self):
-        """
-        Reshapes the file data back to its original shape.
-        Use if self.save is not sufficient for saving the result.
-        """
-        if self._shape is not None:
-            self.data = self.data.reshape(self._shape)
-        self._flush_file()
-
-    def save(self, path):
-        """
-        Saves the current data to the specified file path.
-
-        :param path: File path where the data will be saved.
-        :type path: str
-        """
-        self.flush()
-        self._save_file(path)  # Specific file saving logic in subclass
-
-    def _flush_file(self):
-        """
-        Abstract method to be implemented in subclasses for flushing specific file types.
-        """
-        pass
-
-    def _read_file(self, path):
-        """
-        Abstract method to be implemented in subclasses for reading specific file types (e.g., image, audio).
-
-        :param path: The file path to read from.
-        :type path: str
-        """
-        raise NotImplementedError("Subclasses must implement `_read_file` method")
-
-    def _save_file(self, path):
-        """
-        Abstract method to be implemented in subclasses for saving specific file types (e.g., image, audio).
-
-        :param path: The file path to save to.
-        :type path: str
-        """
-        raise NotImplementedError("Subclasses must implement `_save_file` method")
+    if method == 'delimiter':
+        assert message.count(delimiter_message)==1, Exception('Delimiter appears in data. Use another delimiter or change data minimally.')
+    
+    return message
     
 
 def file_to_binary(path):
@@ -182,6 +142,15 @@ def check_type(data):
         return 2 #to be treated as string
 
 
+def dtype_range(dtype):
+    if np.issubdtype(dtype, np.integer):
+        info = np.iinfo(dtype)
+    elif np.issubdtype(dtype, np.floating):
+        info = np.finfo(dtype)
+    else:
+        raise Exception('array dtype must be integer or float.')
+    return info.min, info.max
+
 def prng_indices(length, key):
     if type(key)!=int:
         key = np.frombuffer(key.encode(), dtype=np.uint32)
@@ -211,5 +180,18 @@ def generate_message_bits(extracted_bits, bits):
         return output_buffer.value.decode('ascii')
     else:
         return ''.join(f'{bit:0{bits}b}' for bit in extracted_bits)
-    
 
+
+def generate_binary_payload(length):
+    """
+    Generate a binary payload.
+
+    :param length: The length of the payload.
+    :type length: int
+
+    :return: payload
+    :rtype: str
+    """
+    binary_array = np.random.randint(0, 2, size=length)
+    return ''.join(map(str, binary_array))
+    
