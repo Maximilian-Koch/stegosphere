@@ -1,6 +1,8 @@
 # Stegosphere
 A flexible, highly modular steganography and steganalysis library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
 
+pip package is coming in February. For now, local installation or running from a folder outside is needed.
+
 It is meant to be usable for research by combining steganography and steganalysis, see [Research toolbox](#research-toolbox).
 
 
@@ -18,41 +20,57 @@ It is meant to be usable for research by combining steganography and steganalysi
 11. [Contributing](#contributing)
 
 ## General
-The library was developed to allow for generalisation and compatability of different steganographical methods across file types.
+The library is made to allow for generalisation and compatability of different steganographical methods across file types.
 The base steganography classes define steganography on top of numpy arrays, while the implementations for different file types primarily aid in converting between the file type and numpy arrays.
 
-Currently, methods for image, audio, ttf and multi-file steganography are implemented.
+Currently, methods for image, audio, ttf, video and multi-file steganography are implemented.
 
 ## Image steganography
-For image steganography, LSB (Least Significant Bit), PVD (Pixel Value Differencing) and IWT (Integer Wavelet Transform) steganography are currently available.
+For image steganography, LSB (Least Significant Bit), PVD (Pixel Value Differencing), BPCS (Bit-Plane Complexity Segmentation) and IWT (Integer Wavelet Transform) steganography are currently available.
 
-The example below loads an image, randomly distributes the message across the image using a seed and saves it.
+The example loads an image into a container and writes a payload into the pixels and then reads it out again.
 ```python
-from stegosphere import image
+from stegosphere.containers.image import ImageContainer
+from stegosphere.methods import LSB
+from stegosphere.io import *
 
-img = image.LSB('image.png')
-img.encode('Encoded message!', seed=42, method='delimiter')
-img.save('stego_image.png')
+img = ImageContainer('image.png')
+px = img.read()
+cover = LSB.embed(px, 'Embedded message!', method='delimiter')
+img.flush(cover)
+img.save('image_stego.png')
 
-steg_img = image.LSB('stego_image.png')
-decoded_bits = steg_img.decode(seed=42, method='delimiter', compress=False)
-print(image.binary_to_data(decoded_bits))
-#Expected output: 'Encoded message!'
+steg_img = ImageContainer('image_stego.png')
+steg_px = steg_img.read()
+uncover = LSB.extract(steg_px, method='delimiter')
+
+print(binary_to_data(uncover))
+#Expected output: 'Embedded message!'
 ```
 For additional parameters, see the chapter on [parameters](#additional-parameters).
 ## Audio steganography
 For audio steganography, LSB (Least Significant Bit), FVD (Frequency Value Differencing) and IWT (Integer Wavelet Transform) steganography are currently available.
 The example below loads an audio and encodes the file `image.png` into the audio. The image is then recovered and saved.
 ```python
-from stegosphere import audio
+from stegosphere.containers.audio import WAVContainer
+from stegosphere.methods import VD
+from stegosphere.io import file_to_binary, binary_to_file
 
-wav = audio.FVD('audio.wav')
-bin_image = audio.file_to_binary('image.png')
-wav.encode(bin_image)
+
+wav = WAVContainer('audio.wav')
+bin_image = file_to_binary('image.png')
+frames = wav.read()
+embedded = VD.embed(frames, bin_image)
+wav.flush(embedded)
 wav.save('steg_audio.wav')
 
-steg_wav = audio.LSB('steg_audio.wav')
-audio.binary_to_file(steg_wav.decode(), 'recovered_image.png')
+
+steg_wav = WAVContainer('steg_audio.wav')
+steg_frames = steg_wav.read()
+extracted = VD.extract(steg_frames)
+
+binary_to_file(extracted,'recovered_image.png')
+
 ```
 For additional parameters, see the chapter on [parameters](#additional-parameters).
 
@@ -62,48 +80,65 @@ For ttf steganography, LSB (Least Significant Bit) and Custom Table steganograph
 The example below stores a string into a custom created table within the TTF file.
 
 ```python
-from stegosphere import ttf
+from stegosphere.containers.ttf import TTFContainer
+from stegosphere.methods import ttf_CustomTable
 
-font = ttf.CustomTable('the_font.ttf')
-font.encode('Encoded message!', table_name='STEG')
-font.save('stegano_font.ttf')
 
-recover_font = ttf.CustomTable('stegano_font.ttf')
-print(recover_font.decode(table_name='STEG'))
+font = TTFContainer('font.ttf')
+
+embedded = ttf_CustomTable.embed(font, 'Encoded message!', table_name='STEG')
+embedded.save('steg_font.ttf')
+
+steg_font = TTFContainer('steg_font.ttf')
+
+print(ttf_CustomTable.extract(steg_font, 'STEG'))
+
 ```
 
 ## Multifile steganography
 It is also possible to divide the payload across different files.
 Different methods and parameters can be used for each file where data is being encoded.
+Below, the content of the file `payload.png` is distributed randomly (with a seed) across the files `image.png` and `audio.wav`, with LSB and FVD being used.
 
 ```python
-from stegosphere import multimedia
+from stegosphere.containers import image, audio
+from stegosphere.methods import LSB, VD
+from stegosphere.tools import multifile
+from stegosphere import io
 
-data = file_to_binary('encode.png')
+data = io.file_to_binary('payload.png')
 
-lsb_img = image.LSB('cover_image.png')
-fvd_audio = audio.FVD('cover_audio.wav')
+img = image.ImageContainer('image.png')
+aud = audio.WAVContainer('audio.wav')
 
-#Define the custom encoding functions
-image_encode = lambda message: lsb_img.encode(message, seed=42, method='delimiter')
-audio_encode = lambda message: fvd_audio.encode(message, seed=21)
+px = img.read()
+frames = aud.read()
 
-#Encode the data evenly across the image and audio,
-#with the data being randomly distributed using a seed.
-split_encode(data, [image_encode,audio_encode], seed=100)
+img_encode = lambda payload: LSB.embed(px, payload)
+aud_encode = lambda payload: VD.embed(frames, payload)
 
-lsb_img.save('multimedia_stego.png')
-fvd_audio.save('mutlimedia_stego.wav')
+#the encoded image pixels and audio frames
+IMG, AUD = multifile.split_encode(data, [img_encode, aud_encode], seed=42)
+#flush encoded data into file objects
+img.flush(IMG)
+aud.flush(AUD)
 
-decode_lsb_img = image.LSB('multimedia_stego.png')
-decode_fvd_audio = audio.FVD('multimedia_stego.wav')
+img.save('stego_image.png')
+aud.save('stego_audio.wav')
 
-image_decode = lambda: decode_lsb_img.decode(seed=42, method='delimiter')
-audio_decode = lambda: decode_lsb_audio.decode(seed=21)
+#Extracting
+img = image.ImageContainer('stego_image.png')
+aud = audio.WAVContainer('stego_audio.wav')
 
-output = split_decode([image_decode, audio_decode], seed=100)
+px, frames = img.read(), aud.read()
 
-print(output==data)
+img_extract = lambda: LSB.extract(px)
+aud_extract = lambda: VD.extract(frames)
+
+output = multifile.split_decode([img_extract, aud_extract], seed=42)
+
+assert output == data
+
 ```
 The payload can be distributed evenly (default setting),
 using weighted distribution or roundrobin.
@@ -111,13 +146,13 @@ using weighted distribution or roundrobin.
 ## File handling
 Several functions for file handling are provided.
 ```
-stegosphere.file_to_binary(path) --> converts any file into binary for encoding.
+stegosphere.io.file_to_binary(path) --> converts any file into binary for encoding.
 
-stegosphere.binary_to_file(binary_data, output_path) --> saves binary back into file format.
+stegosphere.io.binary_to_file(binary_data, output_path) --> saves binary back into file format.
 
-stegosphere.data_to_binary(data) --> converts any string into binary for encoding.
+stegosphere.io.data_to_binary(data) --> converts any string into binary for encoding.
 
-stegosphere.binary_to_data(binary) --> converts a binary string into a readable bytes object.
+stegosphere.io.binary_to_data(binary) --> converts a binary string into a readable bytes object.
 ```
 
 ## Compression and encryption
@@ -138,34 +173,48 @@ Compression can also be used on its own, by using `compression.compress`/`compre
 | `compress`  | LSB, VD  | Compress message to save space when encoding.  |
 
 ## More file types
-Any file types which can be read or converted as a numpy array can be used for some of the steganographic methods, which are implemented in `stegosphere.spatial` and `stegosphere.transform`.
+Any file types which can be read or converted as a numpy array can be used for some of the steganographic methods, which are implemented in the `methods` folder.
 
 ## Research toolbox
 The steganography and steganalysis modules can be combined to create research pipelines.
-Below is an example of applying LSB on the high-detail Wavelet coefficients of two images and storing their stats.
+Below is an example of measuring how different measures change when increasing the payload of an image, using LSB.
 ```python
+import numpy as np
 import pandas as pd
+import time
 
-import image
-import analysis
+from stegosphere.containers.image import ImageContainer
+from stegosphere.methods import LSB
+from stegosphere.utils import generate_binary_payload as gbp
+from stegosphere.analysis.imperceptibility import mse, psnr
+from stegosphere.analysis.detectability import random_detector, uniformity_detector
+from stegosphere.analysis.accuracy import extract_accuracy
 
-files = ['image_1.png','image_2.png']
-payload = analysis.generate_binary_payload(10000)
+img = ImageContainer('image.png')
+px = img.read()
 
-df = pd.DataFrame(columns=['mse','psnr'])
-for file in files:
-    dct = image.IWT(file)
-    dct.transform()
+#longest possible payload for that image
+capacity = LSB.max_capacity(px)-LSB.METADATA_LENGTH_LSB
+max_payload = gbp(capacity)
 
-    lsb = image.LSB(dct[('1','1')])
-    lsb.encode(payload)
+df = pd.DataFrame(columns=['capacity','psnr','embed efficiency', 'detector','accuracy','extract efficiency'])
+LSB.BACKEND = True
 
-    dct[('1','1')] = lsb.data
-    dct.inverse()
+#test for different lengths
+for cap in range(1, 100000, 5000):
+    t1 = time.time()
+    emb = LSB.embed(px, max_payload[:cap])
+    t2 = time.time()
+    p = psnr(px, emb, 255)
+    d = uniformity_detector(emb)
+    
+    t3 = time.time()
+    ext = LSB.extract(emb)
+    t4 = time.time()
+    acc = extract_accuracy(ext,max_payload[:cap])
+    df.loc[len(df)] = cap, p, t2-t1, d, acc, t4-t3
 
-    df.loc[file] = dct.analysis.mse(), dct.analysis.psnr()
-
-print(df)
+df
 ```
 
 ## Contributing
