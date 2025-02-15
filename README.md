@@ -1,7 +1,8 @@
 # Stegosphere
-A flexible, highly modular steganography and steganalysis library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
+A flexible steganography and steganalysis library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
 
-pip package is coming in February. For now, local installation or running from a folder outside is needed.
+Install via pip:
+`pip install stegosphere`
 
 It is meant to be usable for research by combining steganography and steganalysis, see [Research toolbox](#research-toolbox).
 

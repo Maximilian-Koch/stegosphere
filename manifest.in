@@ -1,0 +1,3 @@
+include README.md
+include stegosphere/methods/backend/*.c
+include stegosphere/methods/backend/*.so
