@@ -88,7 +88,6 @@ def embed(array, payload, matching=False, seed=None, bits=1,
         payload = payload.encode('utf-8')
         value_size = content.dtype.itemsize
         array_pointer = content.ctypes.data_as(ctypes.c_void_p)
-        #embeds into content
         backend.embed(array_pointer, content.size, payload, bits, value_size)
         
     else:
@@ -146,9 +145,6 @@ def extract(array, matching=False, seed=None, bits=1, method='metadata', n_bits=
         if not np.issubdtype(values_flat.dtype, np.integer):
             raise ValueError("Array must have an integer dtype for LSB extraction.")
         
-        # Potentially cast to a known size (e.g. int32 or int64).
-        # If we want to preserve the original size exactly, we can rely on dtype.itemsize.
-        # For generality, let's do int64:
         values_cast = values_flat.astype(np.int64, copy=False)
 
         ptr = values_cast.ctypes.data_as(ctypes.c_void_p)
@@ -200,10 +196,7 @@ def extract(array, matching=False, seed=None, bits=1, method='metadata', n_bits=
             delimiter = data_to_binary(delimiter_message)
         else:
             delimiter = delimiter_message
-        
-        # Because delimiter detection requires checking after each pixel,
-        # we do a one-pixel-at-a-time approach (especially simple in Python).
-        # The C approach for each single pixel is effectively the same bitwise op.
+    
         mask = (1 << bits) - 1
 
         #not efficient for large arrays. replace with reading given amount of values before checking for delimiter

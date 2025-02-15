@@ -15,11 +15,16 @@ def payload_generator():
     return gbp(1000)
 
 
-def test_lsb_accuracy(generate_image, payload_generator):
-    image = generate_image
-    payload = payload_generator
+def test_method_accuracy(generate_image, payload_generator):
+    methods = [LSB, VD, BPCS]
+    for method in methods:
+        image = generate_image
+        payload = payload_generator
 
-    embedded = LSB.embed(image, payload)
-    extracted = LSB.extract(embedded)
+        embedded = method.embed(image, payload)
+        if method == BPCS:
+            extracted = method.extract(*embedded)
+        else:
+            extracted = method.extract(embedded)
 
-    assert payload == extracted
+        assert payload == extracted

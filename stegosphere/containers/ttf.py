@@ -7,11 +7,11 @@ except:
     raise Exception("Importing fontTools failed. font input needs to be fontTools.TTFont or numpy.array.")
 
 
-from stegosphere import base
+from stegosphere.containers import container
 
 __all__ = ['TTFContainer']
 
-class TTFContainer(base.Container):
+class TTFContainer(container.Container):
     """
     File container for TrueType Font files.
     """

@@ -177,44 +177,48 @@ Any file types which can be read or converted as a numpy array can be used for s
 
 ## Research toolbox
 The steganography and steganalysis modules can be combined to create research pipelines.
-Below is an example of measuring how different measures change when increasing the payload of an image, using LSB.
+Below is an example of measuring how different measures (speed, PSNR, ...) change when increasing the payload of an image, using LSB, for a set of images from a folder.
 ```python
-import numpy as np
 import pandas as pd
-import time
 
-from stegosphere.containers.image import ImageContainer
 from stegosphere.methods import LSB
 from stegosphere.utils import generate_binary_payload as gbp
-from stegosphere.analysis.imperceptibility import mse, psnr
-from stegosphere.analysis.detectability import random_detector, uniformity_detector
-from stegosphere.analysis.accuracy import extract_accuracy
+from stegosphere.analysis import efficiency, imperceptibility, detectability, accuracy
+from stegosphere.containers import ContainerCollection
+from stegosphere.containers import image
 
-img = ImageContainer('image.png')
-px = img.read()
+import os
+path = os.listdir('PATH_TO_IMAGE_DIRECTORY')
 
-#longest possible payload for that image
-capacity = LSB.max_capacity(px)-LSB.METADATA_LENGTH_LSB
-max_payload = gbp(capacity)
+images = ContainerCollection(path, image.ImageContainer, filter=True)
+pxs = images.read()
 
-df = pd.DataFrame(columns=['capacity','psnr','embed efficiency', 'detector','accuracy','extract efficiency'])
-LSB.BACKEND = True
+df = pd.DataFrame(columns=['image', 'capacity','psnr','embed efficiency', 'detector','accuracy','extract efficiency'])
 
-#test for different lengths
-for cap in range(1, 100000, 5000):
-    t1 = time.time()
-    emb = LSB.embed(px, max_payload[:cap])
-    t2 = time.time()
-    p = psnr(px, emb, 255)
-    d = uniformity_detector(emb)
-    
-    t3 = time.time()
-    ext = LSB.extract(emb)
-    t4 = time.time()
-    acc = extract_accuracy(ext,max_payload[:cap])
-    df.loc[len(df)] = cap, p, t2-t1, d, acc, t4-t3
+#test for different images
+for path, px in zip(images.paths, pxs):
+    max_capacity = LSB.max_capacity(px) - LSB.METADATA_LENGTH_LSB
+    max_payload = gbp(capacity)
 
-df
+    #test for differrent payload sizes
+    for cap in range(0, max_capacity, max_capacity//10):
+        #Embedding efficiency
+        with efficiency.Timer() as embed_time:
+            emb = LSB.embed(px, max_payload[:cap])
+        #Imperceptibility
+        p = imperceptibility.psnr(px, emb, 255)
+        #Detectability
+        d = detectability.uniformity_detector(emb)
+        #Extraction efficiency
+        with efficiency.Timer() as extract_time:
+            ext = LSB.extract(emb)
+        #Extraction accuracy
+        acc = accuracy.bit_error_rate(ext, max_payload[:cap])
+        #Store results
+        df.loc[len(df)] = path, cap, p , embed_time.diff, d, acc, extract_time.diff
+
+print(df)
+
 ```
 
 ## Contributing
@@ -222,6 +226,7 @@ Any support or input is always welcomed.
 Additional general methods are much needed.
 
 Contact:
-email: maximilian.koch@student.uva.nl
+
+Email: maximilian.koch@student.uva.nl
 
 LinkedIn: https://www.linkedin.com/in/maximilian-jw-koch/

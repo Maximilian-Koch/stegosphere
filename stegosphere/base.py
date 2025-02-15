@@ -24,17 +24,3 @@ class StegMethod(ABC):
         pass
 
 
-class Container(ABC):
-    """
-    A superclass for file containers.
-    """
-    @abstractmethod
-    def read(self, **args):
-        pass
-    @abstractmethod
-    def flush(self, **args):
-        pass
-    @abstractmethod
-    def save(self, **args):
-        pass
-    

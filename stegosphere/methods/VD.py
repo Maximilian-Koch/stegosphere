@@ -4,7 +4,6 @@ import math
 import numpy as np
 
 
-from stegosphere import base
 from stegosphere import utils
 from stegosphere import io
 from stegosphere.config import METADATA_LENGTH_VD, DELIMITER_MESSAGE

@@ -1,22 +1,13 @@
-#Measures accuracy of embedding and robustness attacks
+#robustness attacks
 
 import numpy as np
 
-def difference_count(array_1, array_2, absolute=False):
-    array_1 = array_1.astype(np.int64)
-    array_2 = array_2.astype(np.int64)
-    diff = array_1 - array_2
-    if absolute is True:
-        diff = abs(diff)
-    nums, counts = np.unique(diff, return_counts=True)
 
-    return nums, counts
-
-def extract_accuracy(payload_1, payload_2):
-    err = 0
-    for c1, c2 in zip(payload_1, payload_2):
-        if c1!=c2:
-            err += 1
-    if len(payload_2)>len(payload_1):
-        err += len(payload_2)-len(payload_1)
-    return 1- err/len(payload_2)
+def random_bit_attack(array, ratio=0.01):
+    """
+    Change given ratio of array by +1 or -1, randomly.
+    """
+    array = array.copy()
+    indices = np.random.choice(array.size, int(array.size * ratio), replace=False)
+    array.flat[indices] += np.random.choice([-1, 1], size=len(indices))
+    return array

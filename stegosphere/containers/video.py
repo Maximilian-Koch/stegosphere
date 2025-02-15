@@ -6,10 +6,10 @@ try:
 except:
     raise Exception('VideoContainer requires cv2.')
 
-from stegosphere import base
+from stegosphere.containers import container
 
 
-class VideoContainer(base.Container):
+class VideoContainer(container.Container):
     """
     File container for video files.
     """

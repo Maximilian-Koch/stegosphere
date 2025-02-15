@@ -7,7 +7,7 @@
 import numpy as np
 
 
-def embed(array, payload, block_size: int = 8, threshold: float = 0.3):
+def embed(array, payload, block_size = 8, threshold = 0.3):
     """
     Generalized BPCS embedding.
 
@@ -102,13 +102,13 @@ def embed(array, payload, block_size: int = 8, threshold: float = 0.3):
 
     return array_3d.astype(np.uint8), conj_map_records, used_bits
 
-def extract(array: np.ndarray,conj_map_records: list,total_bits: int,block_size: int = 8):
+def extract(array,conj_map_records,total_bits,block_size = 8):
     """
     Generalized BPCS extraction. 
     conj_map_records = [(channel_idx, bitplane_idx, by, bx, was_conjugated), ...]
     Returns binary string of length total_bits.
     """
-    # Convert shape as needed
+    #make 3d
     if array.ndim == 2:
         array_3d = array[:, :, np.newaxis]
     else:
@@ -130,7 +130,6 @@ def extract(array: np.ndarray,conj_map_records: list,total_bits: int,block_size:
 
         block = bp[by:by+block_size, bx:bx+block_size]
         if block.shape != (block_size, block_size):
-            # Should not happen if conj_map_records is correct, but just in case
             continue
 
         flat_block = block.ravel()

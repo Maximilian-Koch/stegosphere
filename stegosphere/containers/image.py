@@ -5,9 +5,9 @@ try:
 except:
     raise Exception('ImageContainer requires PIL. Use array container instead.')
 
-from stegosphere import base
+from stegosphere.containers import container
 
-class ImageContainer(base.Container):
+class ImageContainer(container.Container):
     """
     File container for image files.
     """

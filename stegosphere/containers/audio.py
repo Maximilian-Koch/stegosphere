@@ -3,9 +3,9 @@ import os
 
 import numpy as np
 
-from stegosphere import base
+from stegosphere.containers import container
 
-class WAVContainer(base.Container):
+class WAVContainer(container.Container):
     """
     File container for wave files, for reading, writing and saving.
     """
