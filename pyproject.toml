@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stegosphere"  # Replace with your package name
-version = "1.2.1"
+version = "1.2.2"
 description = "A flexible steganography and steganalysis library supporting various file types, including encryption and compression"
 readme = "README.md"
 requires-python = ">=3.6"

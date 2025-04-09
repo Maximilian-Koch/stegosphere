@@ -8,10 +8,11 @@
  *   arr          - pointer to the array of integer elements (any size: 8,16,32,64 bits)
  *   length       - number of elements in the array
  *   bitstring    - binary string to embed (e.g., "101010..."), up to param*length bits
- *   param        - how many LSBs we overwrite in each element
+ *   param        - number of overwritten LSBs in each element
  *   element_size - size of each element in bytes (1, 2, 4, or 8)
+ *   indices      - if non-NULL, an array of indices that specifies the order in which to embed bits.
  *
- * Overwrites 'param' LSBs of each element in arr with bits from bitstring.
+ * Overwrites 'param' LSBs of each selected element in arr with bits from bitstring.
  * If bitstring is shorter than param*length, not all elements will be updated.
  * If bitstring is longer, extra bits are ignored.
  */
@@ -21,35 +22,35 @@ void embed(
     int length,
     const char* bitstring,
     int param,
-    int element_size
+    int element_size,
+    const int* indices  // new parameter for random indices
 ) {
     int bitstring_len = (int)strlen(bitstring);           // total bits in bitstring
-    int max_elements_for_bits = bitstring_len / param;    // how many elements can store bits fully
+    int max_elements_for_bits = bitstring_len / param;      // how many elements can store bits fully
     int embed_count = (length < max_elements_for_bits) ? length : max_elements_for_bits;
     
     // For each element that will store bits:
     for(int i = 0; i < embed_count; i++) {
+        int index = indices ? indices[i] : i;  // use random index if provided
+        // Address of the element to modify
+        char* elem_ptr = (char*)arr + index * element_size;
+        
         // Gather param bits from the bitstring into a temporary variable 'bits'
-        // e.g. if param=3 and bitstring segment is "101", bits = 0b101 (decimal 5)
         uint64_t bits = 0;
         for(int b = 0; b < param; b++) {
             int idx = i * param + b;  // index in the bitstring
             char c = bitstring[idx];  // '0' or '1'
             int bit_val = (c == '1') ? 1 : 0;
-            // shift left, add new bit (MSB-first approach)
             bits = (bits << 1) | bit_val;
         }
         
-        // Address of the i-th element
-        char* elem_ptr = (char*)arr + i * element_size;
-        
-        // We'll interpret the element as an unsigned integer to do bit masking
+        // Overwrite the param LSBs using masking based on the element size
         switch(element_size) {
             case 1: {
                 uint8_t val = *((uint8_t*)elem_ptr);
-                uint8_t mask = (1U << param) - 1U;  // e.g. param=2 -> 0b11
-                val &= ~mask;                      // zero out the param LSBs
-                val |= (uint8_t)(bits & mask);     // set param LSBs
+                uint8_t mask = (1U << param) - 1U;
+                val &= ~mask;
+                val |= (uint8_t)(bits & mask);
                 *((uint8_t*)elem_ptr) = val;
                 break;
             }
@@ -87,14 +88,14 @@ void embed(
 /*
  * extract:
  *   arr          - pointer to the array of integer elements
- *   length       - number of elements in the array
+ *   length       - number of elements to extract bits from
  *   param        - how many LSBs to read from each element
  *   element_size - size of each element in bytes
  *   out_str      - buffer to store extracted bits (as '0'/'1' chars)
+ *   indices      - if non-NULL, an array of indices that specifies the order in which to extract bits.
  *
- * Reads 'param' bits from each element and reconstructs them into out_str,
- * in the same order they were embedded. out_str should be at least
- * param*length + 1 in size, to store the bits plus null terminator.
+ * Reads 'param' bits from each selected element and reconstructs them into out_str.
+ * out_str should be at least param*length + 1 in size to store the bits plus the null terminator.
  */
 __declspec(dllexport)
 void extract(
@@ -102,15 +103,16 @@ void extract(
     int length,
     int param,
     int element_size,
-    char* out_str
+    char* out_str,
+    const int* indices  // new parameter for random indices
 ) {
-    int total_bits = param * length;  // total bits we can extract
+    int total_bits = param * length;  // total bits we will extract
     
     for(int i = 0; i < length; i++) {
-        // Address of the i-th element
-        const char* elem_ptr = (const char*)arr + i * element_size;
+        int index = indices ? indices[i] : i;  // use provided random index if available
+        // Address of the element to read
+        const char* elem_ptr = (const char*)arr + index * element_size;
         
-        // We'll interpret the element as an unsigned integer
         uint64_t val = 0;
         switch(element_size) {
             case 1: val = *((const uint8_t*)elem_ptr); break;
@@ -121,28 +123,18 @@ void extract(
         }
         
         // Extract param bits from val
-        // e.g. if param=3 and val's LSBs are 0b101, we want to produce "101"
-        // In embed_lsb_any, we used (bits << 1) for each bit, so the leftmost bit is the MSB among param bits.
         uint64_t mask = ((uint64_t)1 << param) - 1ULL;
         uint64_t stored_bits = val & mask;
         
-        // Reconstruct these bits as '0' or '1'
+        // Write the bits as characters ('0' or '1') into out_str
         for(int b = 0; b < param; b++) {
             int out_idx = i * param + b;
-            // Safety check
             if(out_idx >= total_bits) break;
-            
-            // The bit we want is from stored_bits' MSB down to LSB
-            // Example: if stored_bits=0b101 (decimal 5) with param=3,
-            //   b=0 -> we want MSB -> (shift=2) -> 1
-            //   b=1 -> shift=1 -> 0
-            //   b=2 -> shift=0 -> 1
             int shift = param - 1 - b;
             int bit_val = (int)((stored_bits >> shift) & 1ULL);
             out_str[out_idx] = bit_val ? '1' : '0';
         }
     }
     
-    // Null-terminate
-    out_str[total_bits] = '\0';
+    out_str[total_bits] = '\0';  // null-terminate the string
 }

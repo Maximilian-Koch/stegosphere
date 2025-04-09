@@ -1,30 +1,36 @@
 # Stegosphere
 A flexible steganography and steganalysis library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
 
-Install via pip:
-`pip install stegosphere`
 
 It is meant to be usable for research by combining steganography and steganalysis, see [Research toolbox](#research-toolbox).
 
 
 # Table of contents
 1. [General usage](#general)
-2. [Image steganography](#image-steganography)
-3. [Audio steganography](#audio-steganography)
-4. [ttf steganography](#ttf-steganography)
-5. [Multimedia steganography](#multimedia-steganography)
-6. [File handling](#file-handling)
-7. [Compression and Encryption](#compression-and-encryption)
-8. [Additional parameters](#additional-parameters)
-9. [More file types](#more-file-types)
+2. [Installation](#installation)
+3. [Image steganography](#image-steganography)
+4. [Audio steganography](#audio-steganography)
+5. [ttf steganography](#ttf-steganography)
+6. [wavelet transform](#wavelet-transform)
+7. [Multifile steganography](#multifile-steganography)
+8. [File handling](#file-handling)
+9. [Compression and Encryption](#compression-and-encryption)
 10. [Research toolbox](#research-toolbox)
 11. [Contributing](#contributing)
 
 ## General
 The library is made to allow for generalisation and compatability of different steganographical methods across file types.
-The base steganography classes define steganography on top of numpy arrays, while the implementations for different file types primarily aid in converting between the file type and numpy arrays.
+The base steganography functions define steganography on top of numpy arrays, while the implementations for different file types primarily aid in converting between the file type and numpy arrays.
 
 Currently, methods for image, audio, ttf, video and multi-file steganography are implemented.
+
+Any file types which can be read as or converted to a numpy array can be used for some of the steganographic methods, which are implemented in the `methods` folder.
+
+## Installation
+Install using pip: `pip install stegosphere`.
+
+The only requirement is `numpy`.
+The file containers work with `PIL` for images, `fontTools` for ttf and `cv2` for videos, however the file containers are not required to be used as they only provide the binding between files and numpy arrays.
 
 ## Image steganography
 For image steganography, LSB (Least Significant Bit), PVD (Pixel Value Differencing), BPCS (Bit-Plane Complexity Segmentation) and IWT (Integer Wavelet Transform) steganography are currently available.
@@ -48,7 +54,6 @@ uncover = LSB.extract(steg_px, method='delimiter')
 print(binary_to_data(uncover))
 #Expected output: 'Embedded message!'
 ```
-For additional parameters, see the chapter on [parameters](#additional-parameters).
 ## Audio steganography
 For audio steganography, LSB (Least Significant Bit), FVD (Frequency Value Differencing) and IWT (Integer Wavelet Transform) steganography are currently available.
 The example below loads an audio and encodes the file `image.png` into the audio. The image is then recovered and saved.
@@ -94,6 +99,38 @@ steg_font = TTFContainer('steg_font.ttf')
 
 print(ttf_CustomTable.extract(steg_font, 'STEG'))
 
+```
+
+## wavelet transform
+Integer Wavelet Transform is also available.
+As it is not a steganography on its own, it needs to be combined with other techniques. In this example, IWT is applied to a RGB image and the high frequency coefficients in the diagonal direction
+are used for LSB.
+```python
+from stegosphere.containers.image import ImageContainer
+from stegosphere.methods import LSB, IWT
+from stegosphere.io import *
+
+img = ImageContainer('image.png')
+px = img.read()
+iwt_px, meta = IWT.transform(px, skip_last_axis=True)
+hf = iwt_px[('1','1')]
+
+cover = LSB.embed(hf, 'Embedded message!', method='delimiter', seed=42)
+
+iwt_px[('1','1')] = cover
+#transform pixels back into spatial domain
+px_embed = IWT.inverse(iwt_px, meta)
+img.flush(px_embed)
+img.save('stego.png')
+#extracing
+steg_img = ImageContainer('stego.png')
+steg_px = steg_img.read()
+iwt, _ = IWT.transform(steg_px, skip_last_axis=True)
+data = iwt[('1','1')]
+uncover = LSB.extract(data, method='delimiter', seed=42)
+
+print(binary_to_data(uncover))
+#Expected output: 'Embedded message!'
 ```
 
 ## Multifile steganography
@@ -162,20 +199,6 @@ Compression can be used by setting `compress='lzma'` when encoding/decoding. The
 
 Compression can also be used on its own, by using `compression.compress`/`compression.decompress`. `lzma`and `deflate` algorithm are currently available.
 
-## Additional parameters
-| Parameter     | Available for     | Effect     |
-|--------------|--------------|--------------|
-| `seed`  | LSB, VD, multifile  | Distributes payload pseudorandomly across the file. Reduces detectability drastically.  |
-| `matching`  | in development for LSB  | less detectable way of adapting bits in LSB  |
-| `bits` | LSB  | increases capacity, increases detectability  |
-| `method`  | LSB, VD  | The method to detect end of message when decoding. Either 'delimiter', 'metadata' or None.  |
-| `metadata_length`  | LSB, VD  | Bits used at the beginning of the message for the metadata. Change only needed for very short or very long (>0.5GB) payloads.  |
-| `delimiter_message`  | LSB, VD  | The message used as an end of message signifier when decoding.  |
-| `compress`  | LSB, VD  | Compress message to save space when encoding.  |
-
-## More file types
-Any file types which can be read or converted as a numpy array can be used for some of the steganographic methods, which are implemented in the `methods` folder.
-
 ## Research toolbox
 The steganography and steganalysis modules can be combined to create research pipelines.
 Below is an example of measuring how different measures (speed, PSNR, ...) change when increasing the payload of an image, using LSB, for a set of images from a folder.
@@ -199,7 +222,7 @@ df = pd.DataFrame(columns=['image', 'capacity','psnr','embed efficiency', 'detec
 #test for different images
 for path, px in zip(images.paths, pxs):
     max_capacity = LSB.max_capacity(px) - LSB.METADATA_LENGTH_LSB
-    max_payload = gbp(capacity)
+    max_payload = gbp(max_capacity)
 
     #test for differrent payload sizes
     for cap in range(0, max_capacity, max_capacity//10):

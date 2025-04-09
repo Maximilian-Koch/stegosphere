@@ -1,4 +1,3 @@
-
 #The standard End-of-message signifier - gets converted to binary. Long enough for all standard use cases.
 DELIMITER_MESSAGE = '###END###'
 

@@ -5,8 +5,6 @@ import os
 
 import numpy as np
 
-
-from stegosphere import base
 from stegosphere.config import METADATA_LENGTH_LSB, DELIMITER_MESSAGE
 from stegosphere import io
 from stegosphere.utils import prng_indices
@@ -15,11 +13,11 @@ BACKEND = True
 try:
     so_file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "backend\\lsb.so")
     backend = ctypes.CDLL(so_file_path)
-    backend.embed.argtypes = [ctypes.c_void_p,ctypes.c_int,ctypes.c_char_p,
-                              ctypes.c_int,ctypes.c_int]
+    backend.embed.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_char_p,
+                              ctypes.c_int, ctypes.c_int, ctypes.POINTER(ctypes.c_int)]
     backend.embed.restype = None
-    backend.extract.argtypes = [ctypes.c_void_p,ctypes.c_int,ctypes.c_int,
-                              ctypes.c_int,ctypes.c_char_p]
+    backend.extract.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_int,
+                                ctypes.c_int, ctypes.c_char_p, ctypes.POINTER(ctypes.c_int)]
     backend.extract.restype = None
     
 except Exception as e:
@@ -50,8 +48,10 @@ def embed(array, payload, matching=False, seed=None, bits=1,
 
     The message can be decoded using either a delimiter, metadata, or without any end-of-message marker. It also
     supports optional message verification to ensure the decoded message matches the original encoded message.
-    :param message: The message to be hidden. Gets converted into binary if not already.
-    :type message: str
+    :param array: The array to write the payload into.
+    :type array: np.ndarray
+    :param payload: The payload to be hidden. Gets converted into binary if not already.
+    :type payload: str
     :param matching: Whether to use LSB matching (not implemented yet). Defaults to False.
     :type matching: bool, optional
     :param seed: (Optional) Seed value for pseudo-randomly distributing the message in the cover data.
@@ -82,13 +82,19 @@ def embed(array, payload, matching=False, seed=None, bits=1,
     orig_dim = array.shape
 
     if BACKEND is True:
-        if seed is not None:
-            warnings.warn('set LSB.BACKEND=False when using seed for now.')
         content = array.flatten().copy()
         payload = payload.encode('utf-8')
         value_size = content.dtype.itemsize
         array_pointer = content.ctypes.data_as(ctypes.c_void_p)
-        backend.embed(array_pointer, content.size, payload, bits, value_size)
+
+        if seed is not None:
+            indices = prng_indices(content.size, seed)
+            indices_pointer = indices.ctypes.data_as(ctypes.POINTER(ctypes.c_int))
+        else:
+            indices_pointer = None
+        
+        backend.embed(array_pointer, content.size, payload, bits, value_size, indices_pointer)
+
         
     else:
         content = array.copy().flatten().astype(np.int32)
@@ -132,15 +138,17 @@ def extract(array, matching=False, seed=None, bits=1, method='metadata', n_bits=
     
     if seed is not None:
         indices = prng_indices(len(content), seed)
+        indices_pointer = indices.ctypes.data_as(ctypes.POINTER(ctypes.c_int))
     else:
         indices = np.arange(len(content))
+        indices_pointer = None
 
 
-    def extract_bits_python(values, bits):
+    def extract_bits_python(values, bits, indices_pointer=None):
         mask = (1 << bits) - 1
         return ''.join(f'{(v & mask):0{bits}b}' for v in values)
 
-    def extract_bits_c(values, bits):
+    def extract_bits_c(values, bits, indices_pointer):
         values_flat = values.ravel()
         if not np.issubdtype(values_flat.dtype, np.integer):
             raise ValueError("Array must have an integer dtype for LSB extraction.")
@@ -149,12 +157,12 @@ def extract(array, matching=False, seed=None, bits=1, method='metadata', n_bits=
 
         ptr = values_cast.ctypes.data_as(ctypes.c_void_p)
         length = values_cast.size
-        elem_size = values_cast.dtype.itemsize  # e.g. 8 for int64
+        elem_size = values_cast.dtype.itemsize
 
         total_bits = bits * length
         out_buffer = ctypes.create_string_buffer(total_bits + 1)  # +1 for null terminator
         
-        backend.extract(ptr, length, bits, elem_size, out_buffer)
+        backend.extract(ptr, length, bits, elem_size, out_buffer, indices_pointer)
         
         return out_buffer.value.decode('utf-8')
 
@@ -173,27 +181,26 @@ def extract(array, matching=False, seed=None, bits=1, method='metadata', n_bits=
         needed_elems = math.ceil(n_bits / bits)
         subset = content[indices[:needed_elems]]
         
-        raw_bits = backend_extract(subset, bits)
-        # `raw_bits` could be param * needed_elems in length
+        raw_bits = backend_extract(subset, bits, indices_pointer)
         message_bits = raw_bits[:n_bits]
 
     elif method == 'metadata':
         total_metadata_pixels = math.ceil(metadata_length / bits)
         metadata_subset = content[indices[:total_metadata_pixels]]
         
-        metadata_raw = backend_extract(metadata_subset, bits)
+        metadata_raw = backend_extract(metadata_subset, bits, indices_pointer)
         metadata_raw = metadata_raw[:metadata_length]
         message_length = int(metadata_raw, 2)
         
         total_message_pixels = math.ceil(message_length / bits)
         message_subset = content[indices[total_metadata_pixels : total_metadata_pixels + total_message_pixels]]
         
-        message_raw = backend_extract(message_subset, bits)
+        message_raw = backend_extract(message_subset, bits, indices_pointer)
         message_bits = message_raw[:message_length]
 
     elif method == 'delimiter':
-        if not is_binary(delimiter_message):
-            delimiter = data_to_binary(delimiter_message)
+        if not io.is_binary(delimiter_message):
+            delimiter = io.data_to_binary(delimiter_message)
         else:
             delimiter = delimiter_message
     

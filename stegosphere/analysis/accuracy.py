@@ -3,14 +3,18 @@ import numpy as np
 def hamming_distance(before, after):
     """
     Compute Hamming Distance (HD)
-
-    :param before:
-    :param after:
-
-    :return: Hamming Distance
+    
+    :param before: Binary string or NumPy array
+    :param after: Binary string or NumPy array
+    :return: Hamming Distance (integer)
     """
-    assert len(before) == len(after)
-    return np.sum(np.array(before) != np.array(after))
+    assert len(before) == len(after), "Inputs must be of equal length"
+
+    if isinstance(before, str) and isinstance(after, str):
+        before = np.array(list(before))
+        after = np.array(list(after))
+
+    return np.sum(before != after)
 
 def bit_error_rate(before, after):
     """

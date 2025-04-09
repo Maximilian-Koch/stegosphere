@@ -191,6 +191,3 @@ def _compute_complexity(block: np.ndarray):
 
     max_transitions = (h * (w - 1)) + (w * (h - 1))
     return transitions / max_transitions if max_transitions > 0 else 0
-
-
-
