@@ -1,12 +1,14 @@
 # Stegosphere
-A flexible steganography and steganalysis library for image, audio, ttf, multiple file and all NumPy-array-readable steganography, including encryption and compression.
-
-
-It is meant to be usable for research by combining steganography and steganalysis, see [Research toolbox](#research-toolbox).
+Stegosphere is a versatile library for both
+applying steganography (hiding data within media) and
+performing steganalysis (detecting hidden data).
+It provides a flexible framework for any data representable
+as a NumPy array, including images, videos, audio and TTF fonts.
+Furthermore, multi-file embedding, Hamming codes, payload compression and encryption are available, as well as a research toolbox for evaluating method performance and security, see [Research toolbox](#research-toolbox).
 
 
 # Table of contents
-1. [General usage](#general)
+1. [Overview](#overview)
 2. [Installation](#installation)
 3. [Image steganography](#image-steganography)
 4. [Audio steganography](#audio-steganography)
@@ -18,13 +20,36 @@ It is meant to be usable for research by combining steganography and steganalysi
 10. [Research toolbox](#research-toolbox)
 11. [Contributing](#contributing)
 
-## General
-The library is made to allow for generalisation and compatability of different steganographical methods across file types.
-The base steganography functions define steganography on top of numpy arrays, while the implementations for different file types primarily aid in converting between the file type and numpy arrays.
+## Overview
+**Core Design: NumPy-Centric Approach**
 
-Currently, methods for image, audio, ttf, video and multi-file steganography are implemented.
+Most algorithms within the library operate directly on Numpy arrays,
+thus the same fundamental techniques (such as LSB and Value Differencing) can be applied to any data source,
+and data can be processed before and after as needed.
 
-Any file types which can be read as or converted to a numpy array can be used for some of the steganographic methods, which are implemented in the `methods` folder.
+**File Handling via Containers**
+
+To bridge the gap between specific file formats and the 
+NumPy-based methods, the `stegosphere.containers` module can be used.
+Currently, images, video, wav and ttf files containers are available.
+However, the translation into a NumPy array can
+also be done manually by the user.
+The container classes handle reading data into 
+an appropriate array, flushing the data and saving back to a file.
+The image container works with [PIL/Pillow](https://github.com/python-pillow/Pillow), so that the original metadata
+stays the same, which is more complicated when using cv2.
+The WAV container uses the standard wave library,
+TTF font uses [fontTools](https://github.com/fonttools/fonttools) and the video container with [cv2](https://github.com/opencv/opencv-python).
+
+**Steganographic Methods**
+
+The pre-processing, embedding and extraction methods are within the `stegosphere.methods` module.
+Currently the following methods are implemented:
+* Least Significant Bit (LSB)
+* Value Differencing (PVD for images, FVD for audio)
+* Bit-Plane Complexity Segmentation (BPCS)
+* Integer Wavelet Transform (IWT)
+* Custom Table creation (TTF files only)
 
 ## Installation
 Install using pip: `pip install stegosphere`.
@@ -201,7 +226,7 @@ Compression can also be used on its own, by using `compression.compress`/`compre
 
 ## Research toolbox
 The steganography and steganalysis modules can be combined to create research pipelines.
-Below is an example of measuring how different measures (speed, PSNR, ...) change when increasing the payload of an image, using LSB, for a set of images from a folder.
+Below is an example of measuring how different metrics (speed, PSNR, ...) change when increasing the payload of an image, using LSB, for a set of images from a folder.
 ```python
 import pandas as pd
 
