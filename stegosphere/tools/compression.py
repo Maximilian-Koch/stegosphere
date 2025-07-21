@@ -1,10 +1,23 @@
+"""
+Helper functions for applying compression.
+"""
+
 import lzma
 import zlib
+import base64
 
 __all__ = ['compress', 'decompress', 'binary_compress', 'binary_decompress']
 
 
 def bits_to_bytes(binary_string):
+    """
+    Turns string of bits into bytes object with padding
+
+    Args:
+        binary_string (str): String of bits
+    Returns:
+        tuple: Tuple containing bytes and padded length
+    """
     pad_len = (8 - len(binary_string) % 8) % 8
     binary_string += '0' * pad_len
     byte_array = bytearray()
@@ -14,6 +27,15 @@ def bits_to_bytes(binary_string):
     return bytes(byte_array), pad_len
 
 def bytes_to_bits(byte_data, pad_len):
+    """
+    Turns bytes into binary string. Reverse function of `bits_to_bytes`.
+
+    Args:
+        byte_data (bytes): Bytes
+        pad_len (int): Length to pad
+    Returns:
+        str: String of bits
+    """
     bits = ''.join(f'{byte:08b}' for byte in byte_data)
     if pad_len > 0:
         bits = bits[:-pad_len]
@@ -23,40 +45,48 @@ def compress(string, method='lzma'):
     """
     Compress a string using lzma or deflate (zlib) algorithm.
 
-    :param string: The string to be compressed.
-    :type string: str
-    :param method: The method to be used. Currently 'lzma' or 'deflate'.
-    :type method: str
-
-    :return: The compressed string.
-    :rtype: bytes
+    Args:
+        string (str): The string to be compressed
+        method (str): The method to be used. Either `lzma` or `deflate`
+    Returns:
+        str: the compressed string
     """
     if method=='lzma':
-        return lzma.compress(bytes(string, 'utf-8'), preset=9 | lzma.PRESET_EXTREME)
+        compressed = lzma.compress(bytes(string, 'utf-8'), preset=9 | lzma.PRESET_EXTREME)
     elif method=='deflate':
-        return zlib.compress(bytes(string, 'utf-8'))
+        compressed = zlib.compress(bytes(string, 'utf-8'))
+    else:
+        raise NotImplementedError
+    return base64.b64encode(compressed).decode('ascii')
 
-def decompress(byte, method='lzma'):
+def decompress(string, method='lzma'):
     """
     Decompress a bytes object using lzma or deflate (zlib) algorithm.
 
-    :param byte: The compressed bytes.
-    :type byte: bytes
-    :param method: The method to be used. Currently 'lzma' or 'deflate'.
-    :type method: str
-
-    :return: The decompressed bytes.
-    :rtype: bytes
+    Args:
+        string (str): The compressed string
+        method (str): The method to be used. Either `lzma` or `deflate`
+    Returns:
+        str: The decompressed string.
     """
+    string = base64.b64decode(string)
     if method=='lzma':
-        return lzma.decompress(byte)
+        return lzma.decompress(string)
     elif method=='deflate':
-        return zlib.decompress(byte)
+        return zlib.decompress(string)
     
 def binary_compress(binary_string, method='lzma'):
     """
     Compresses a binary string using lzma and returns the compressed binary string.
     The padding length is stored in the first 8 bits.
+
+    Args:
+        binary_string (str): String of bits
+        method (str): Compression method. Only `lzma` available.
+    Returns:
+        str: Compressed binary string.
+    Raises:
+        NotImplementedError: if other method is used
     """
     if method == 'lzma':
         byte_data, pad_len = bits_to_bytes(binary_string)
@@ -69,7 +99,15 @@ def binary_compress(binary_string, method='lzma'):
 
 def binary_decompress(compressed_binary_string, method='lzma'):
     """
-    Decompresses the compressed binary string back to the original binary string.
+    Decompresses a compressed binary string back to the original binary string.
+
+    Args:
+        compressed_binary_string (str): Compressed string
+        method (str): Compression method. Only `lzma` available.
+    Returns:
+        str: Decompressed binary string.
+    Raises:
+        NotImplementedError: if other method is used 
     """
     if method == 'lzma':
         pad_len_bits = compressed_binary_string[:8]

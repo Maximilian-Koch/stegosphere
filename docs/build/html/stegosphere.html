@@ -1,0 +1,1188 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stegosphere package &mdash; stegosphere 1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c55cb9cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="stegosphere.analysis package" href="stegosphere.analysis.html" />
+    <link rel="prev" title="stegosphere" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            stegosphere
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">stegosphere</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">stegosphere package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.analysis.html">stegosphere.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html">stegosphere.containers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.costs.html">stegosphere.costs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.embeddings.html">stegosphere.embeddings package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.tools.html">stegosphere.tools package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.transform.html">stegosphere.transform package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-stegosphere.io">stegosphere.io module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.binary_to_data"><code class="docutils literal notranslate"><span class="pre">binary_to_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.binary_to_file"><code class="docutils literal notranslate"><span class="pre">binary_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.check_type"><code class="docutils literal notranslate"><span class="pre">check_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.data_to_binary"><code class="docutils literal notranslate"><span class="pre">data_to_binary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.decode_binary_payload"><code class="docutils literal notranslate"><span class="pre">decode_binary_payload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.encode_binary_payload"><code class="docutils literal notranslate"><span class="pre">encode_binary_payload()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.file_to_binary"><code class="docutils literal notranslate"><span class="pre">file_to_binary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.hex_to_binary"><code class="docutils literal notranslate"><span class="pre">hex_to_binary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.io.is_binary"><code class="docutils literal notranslate"><span class="pre">is_binary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-stegosphere.payloader">stegosphere.payloader module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.Delimiter"><code class="docutils literal notranslate"><span class="pre">Delimiter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.EliasGamma"><code class="docutils literal notranslate"><span class="pre">EliasGamma</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.FixedHeader"><code class="docutils literal notranslate"><span class="pre">FixedHeader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.FixedLength"><code class="docutils literal notranslate"><span class="pre">FixedLength</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.PayloadFrame"><code class="docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.RawData"><code class="docutils literal notranslate"><span class="pre">RawData</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.Unary"><code class="docutils literal notranslate"><span class="pre">Unary</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.decode_framing"><code class="docutils literal notranslate"><span class="pre">decode_framing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.payloader.encode_framing"><code class="docutils literal notranslate"><span class="pre">encode_framing()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-stegosphere.selector">stegosphere.selector module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.selector.greedy_indices"><code class="docutils literal notranslate"><span class="pre">greedy_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.selector.inverse_cost_greedy_prng_indices"><code class="docutils literal notranslate"><span class="pre">inverse_cost_greedy_prng_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.selector.prng_indices"><code class="docutils literal notranslate"><span class="pre">prng_indices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.selector.prng_indices_choice"><code class="docutils literal notranslate"><span class="pre">prng_indices_choice()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.selector.weighted_greedy_prng_indices"><code class="docutils literal notranslate"><span class="pre">weighted_greedy_prng_indices()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-stegosphere.utils">stegosphere.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.utils.dtype_range"><code class="docutils literal notranslate"><span class="pre">dtype_range()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.utils.generate_binary_payload"><code class="docutils literal notranslate"><span class="pre">generate_binary_payload()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-stegosphere">Module contents</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.binary_to_data"><code class="docutils literal notranslate"><span class="pre">binary_to_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.binary_to_file"><code class="docutils literal notranslate"><span class="pre">binary_to_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.data_to_binary"><code class="docutils literal notranslate"><span class="pre">data_to_binary()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#stegosphere.file_to_binary"><code class="docutils literal notranslate"><span class="pre">file_to_binary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stegosphere</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">stegosphere</a></li>
+      <li class="breadcrumb-item active">stegosphere package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stegosphere.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stegosphere-package">
+<h1>stegosphere package<a class="headerlink" href="#stegosphere-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="stegosphere.analysis.html">stegosphere.analysis package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.accuracy">stegosphere.analysis.accuracy module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.accuracy.bit_error_rate"><code class="docutils literal notranslate"><span class="pre">bit_error_rate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.accuracy.hamming_distance"><code class="docutils literal notranslate"><span class="pre">hamming_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.accuracy.normalized_correlation"><code class="docutils literal notranslate"><span class="pre">normalized_correlation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.capacity">stegosphere.analysis.capacity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.capacity.bits_per_value"><code class="docutils literal notranslate"><span class="pre">bits_per_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.capacity.bits_per_value_used"><code class="docutils literal notranslate"><span class="pre">bits_per_value_used()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.capacity.max_capacity_estimator"><code class="docutils literal notranslate"><span class="pre">max_capacity_estimator()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.capacity.payload_ratio"><code class="docutils literal notranslate"><span class="pre">payload_ratio()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.detectability">stegosphere.analysis.detectability module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.detectability.random_detector"><code class="docutils literal notranslate"><span class="pre">random_detector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.detectability.sp"><code class="docutils literal notranslate"><span class="pre">sp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.detectability.uniformity_detector"><code class="docutils literal notranslate"><span class="pre">uniformity_detector()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.efficiency">stegosphere.analysis.efficiency module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.efficiency.EfficiencyProfiler"><code class="docutils literal notranslate"><span class="pre">EfficiencyProfiler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.efficiency.MemoryProfiler"><code class="docutils literal notranslate"><span class="pre">MemoryProfiler</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.efficiency.Timer"><code class="docutils literal notranslate"><span class="pre">Timer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.efficiency.profile_function"><code class="docutils literal notranslate"><span class="pre">profile_function()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.imperceptibility">stegosphere.analysis.imperceptibility module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.bhattacharyya_divergence"><code class="docutils literal notranslate"><span class="pre">bhattacharyya_divergence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.chi_distance"><code class="docutils literal notranslate"><span class="pre">chi_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.euclidean_distance"><code class="docutils literal notranslate"><span class="pre">euclidean_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.js_divergence"><code class="docutils literal notranslate"><span class="pre">js_divergence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.kl_divergence"><code class="docutils literal notranslate"><span class="pre">kl_divergence()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.manhattan_distance"><code class="docutils literal notranslate"><span class="pre">manhattan_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.mse"><code class="docutils literal notranslate"><span class="pre">mse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.psnr"><code class="docutils literal notranslate"><span class="pre">psnr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.results"><code class="docutils literal notranslate"><span class="pre">results()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.imperceptibility.ssim"><code class="docutils literal notranslate"><span class="pre">ssim()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.robustness">stegosphere.analysis.robustness module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.robustness.cropping_attack"><code class="docutils literal notranslate"><span class="pre">cropping_attack()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.robustness.gaussian_noise_attack"><code class="docutils literal notranslate"><span class="pre">gaussian_noise_attack()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.robustness.jpeg_compression_attack"><code class="docutils literal notranslate"><span class="pre">jpeg_compression_attack()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.robustness.random_bit_attack"><code class="docutils literal notranslate"><span class="pre">random_bit_attack()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis.visualizer">stegosphere.analysis.visualizer module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.visualizer.channel_correlation_plot"><code class="docutils literal notranslate"><span class="pre">channel_correlation_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.visualizer.difference_heatmap"><code class="docutils literal notranslate"><span class="pre">difference_heatmap()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.visualizer.histogram_comparison"><code class="docutils literal notranslate"><span class="pre">histogram_comparison()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.visualizer.plot_lsb_frequency"><code class="docutils literal notranslate"><span class="pre">plot_lsb_frequency()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.analysis.html#stegosphere.analysis.visualizer.show_side_by_side"><code class="docutils literal notranslate"><span class="pre">show_side_by_side()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.analysis.html#module-stegosphere.analysis">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stegosphere.containers.html">stegosphere.containers package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.containers.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.containers.audio.html">stegosphere.containers.audio package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.audio.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.audio.html#module-stegosphere.containers.audio.audio">stegosphere.containers.audio.audio module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.audio.html#module-stegosphere.containers.audio">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.containers.font.html">stegosphere.containers.font package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.font.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.font.html#module-stegosphere.containers.font.ttf">stegosphere.containers.font.ttf module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.font.html#module-stegosphere.containers.font.ttf_CustomTable">stegosphere.containers.font.ttf_CustomTable module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.font.html#module-stegosphere.containers.font">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.containers.image.html">stegosphere.containers.image package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.image.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.image.html#module-stegosphere.containers.image.image">stegosphere.containers.image.image module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.image.html#module-stegosphere.containers.image">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.containers.video.html">stegosphere.containers.video package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.video.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.video.html#module-stegosphere.containers.video.video">stegosphere.containers.video.video module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.video.html#module-stegosphere.containers.video">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.containers.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.containers.html#module-stegosphere.containers.container">stegosphere.containers.container module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.Container"><code class="docutils literal notranslate"><span class="pre">Container</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.Container.flush"><code class="docutils literal notranslate"><span class="pre">Container.flush()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.Container.read"><code class="docutils literal notranslate"><span class="pre">Container.read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.Container.save"><code class="docutils literal notranslate"><span class="pre">Container.save()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.ContainerCollection"><code class="docutils literal notranslate"><span class="pre">ContainerCollection</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.ContainerCollection.flush"><code class="docutils literal notranslate"><span class="pre">ContainerCollection.flush()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.ContainerCollection.read"><code class="docutils literal notranslate"><span class="pre">ContainerCollection.read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html#stegosphere.containers.container.ContainerCollection.save"><code class="docutils literal notranslate"><span class="pre">ContainerCollection.save()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.containers.html#module-stegosphere.containers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stegosphere.costs.html">stegosphere.costs package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.costs.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.costs.html#module-stegosphere.costs.HILL">stegosphere.costs.HILL module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.costs.html#stegosphere.costs.HILL.hill_cost"><code class="docutils literal notranslate"><span class="pre">hill_cost()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.costs.html#module-stegosphere.costs.WOW">stegosphere.costs.WOW module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.costs.html#stegosphere.costs.WOW.wow_cost"><code class="docutils literal notranslate"><span class="pre">wow_cost()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.costs.html#module-stegosphere.costs">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stegosphere.embeddings.html">stegosphere.embeddings package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.embeddings.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.embeddings.html#module-stegosphere.embeddings.BPCS">stegosphere.embeddings.BPCS module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.BPCS.embed"><code class="docutils literal notranslate"><span class="pre">embed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.BPCS.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.embeddings.html#module-stegosphere.embeddings.LSB">stegosphere.embeddings.LSB module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.LSB.embed"><code class="docutils literal notranslate"><span class="pre">embed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.LSB.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.LSB.max_capacity"><code class="docutils literal notranslate"><span class="pre">max_capacity()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.embeddings.html#module-stegosphere.embeddings.VD">stegosphere.embeddings.VD module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.VD.define_range"><code class="docutils literal notranslate"><span class="pre">define_range()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.VD.define_range_table"><code class="docutils literal notranslate"><span class="pre">define_range_table()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.VD.embed"><code class="docutils literal notranslate"><span class="pre">embed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.VD.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.embeddings.html#module-stegosphere.embeddings.echo_hiding">stegosphere.embeddings.echo_hiding module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.echo_hiding.detect_delay"><code class="docutils literal notranslate"><span class="pre">detect_delay()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.echo_hiding.echo_kernel"><code class="docutils literal notranslate"><span class="pre">echo_kernel()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.echo_hiding.embed"><code class="docutils literal notranslate"><span class="pre">embed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.embeddings.html#stegosphere.embeddings.echo_hiding.extract"><code class="docutils literal notranslate"><span class="pre">extract()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.embeddings.html#module-stegosphere.embeddings">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stegosphere.tools.html">stegosphere.tools package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.tools.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.tools.html#module-stegosphere.tools.compression">stegosphere.tools.compression module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.compression.binary_compress"><code class="docutils literal notranslate"><span class="pre">binary_compress()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.compression.binary_decompress"><code class="docutils literal notranslate"><span class="pre">binary_decompress()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.compression.compress"><code class="docutils literal notranslate"><span class="pre">compress()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.compression.decompress"><code class="docutils literal notranslate"><span class="pre">decompress()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.tools.html#module-stegosphere.tools.crypt">stegosphere.tools.crypt module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.crypt.AES_GCM"><code class="docutils literal notranslate"><span class="pre">AES_GCM</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.crypt.AES_GCM.decrypt"><code class="docutils literal notranslate"><span class="pre">AES_GCM.decrypt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.crypt.AES_GCM.encrypt"><code class="docutils literal notranslate"><span class="pre">AES_GCM.encrypt()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.tools.html#module-stegosphere.tools.ecc">stegosphere.tools.ecc module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.ecc.Hamming7_4"><code class="docutils literal notranslate"><span class="pre">Hamming7_4</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.ecc.Hamming7_4.decode"><code class="docutils literal notranslate"><span class="pre">Hamming7_4.decode()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.ecc.Hamming7_4.encode"><code class="docutils literal notranslate"><span class="pre">Hamming7_4.encode()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.tools.html#module-stegosphere.tools.multifile">stegosphere.tools.multifile module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.multifile.roundrobin_chunks"><code class="docutils literal notranslate"><span class="pre">roundrobin_chunks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.multifile.split_decode"><code class="docutils literal notranslate"><span class="pre">split_decode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.multifile.split_encode"><code class="docutils literal notranslate"><span class="pre">split_encode()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.tools.html#stegosphere.tools.multifile.weighted_chunks"><code class="docutils literal notranslate"><span class="pre">weighted_chunks()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.tools.html#module-stegosphere.tools">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stegosphere.transform.html">stegosphere.transform package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.transform.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.transform.html#module-stegosphere.transform.IWT">stegosphere.transform.IWT module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.transform.html#stegosphere.transform.IWT.inverse"><code class="docutils literal notranslate"><span class="pre">inverse()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.transform.html#stegosphere.transform.IWT.transform"><code class="docutils literal notranslate"><span class="pre">transform()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="stegosphere.transform.html#module-stegosphere.transform">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-stegosphere.io">
+<span id="stegosphere-io-module"></span><h2>stegosphere.io module<a class="headerlink" href="#module-stegosphere.io" title="Link to this heading"></a></h2>
+<p>Utilities for converting between file, string, and binary formats, and
+for encoding/decoding payloads with optional framing.</p>
+<p>Functions include:
+- Encoding/decoding binary payloads with framing
+- Conversion between files, strings, bytes, hex, and binary
+- Type checks for binary and hexadecimal strings</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.binary_to_data">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">binary_to_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.binary_to_data" title="Link to this definition"></a></dt>
+<dd><p>Converts binary string to data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>binary</strong> (<em>str</em>) – Binary string to convert</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Data as bytes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.binary_to_file">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">binary_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.binary_to_file" title="Link to this definition"></a></dt>
+<dd><p>Write binary data into a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>binary_data</strong> (<em>str</em>) – Binary data to store</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to save the output file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.check_type">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">check_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.check_type" title="Link to this definition"></a></dt>
+<dd><p>Check whether data is binary, hexadecimal or neither.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>str</em>) – data to be checked</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 meaning binary, 1 meaning hex, 2 meaning neither</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.data_to_binary">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">data_to_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.data_to_binary" title="Link to this definition"></a></dt>
+<dd><p>Converts data (string or bytes) to a binary string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Data to convert</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If <cite>data</cite> could not be converted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.decode_binary_payload">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">decode_binary_payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.decode_binary_payload" title="Link to this definition"></a></dt>
+<dd><p>Decodes binary payload by removing payload framing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be decoded</p></li>
+<li><p><strong>framing</strong> (<a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><em>stegosphere.payloader.PayloadFrame</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – Framing method to use</p></li>
+<li><p><strong>framing_kwargs</strong> (<em>dict</em><em> | </em><em>None</em>) – specific framing arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decoded binary payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.encode_binary_payload">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">encode_binary_payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.encode_binary_payload" title="Link to this definition"></a></dt>
+<dd><p>Converts payload into binary and applies payload framing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be encoded</p></li>
+<li><p><strong>framing</strong> (<a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><em>stegosphere.payloader.PayloadFrame</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – Framing method to use</p></li>
+<li><p><strong>framing_kwargs</strong> (<em>dict</em><em> | </em><em>None</em>) – specific framing arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Encoded binary payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.file_to_binary">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">file_to_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.file_to_binary" title="Link to this definition"></a></dt>
+<dd><p>Converts a file into its binary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the input file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary data of the file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.hex_to_binary">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">hex_to_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.hex_to_binary" title="Link to this definition"></a></dt>
+<dd><p>Convert hexadecimal str to binary str.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>str</em>) – data to be converted</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.io.is_binary">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.io.</span></span><span class="sig-name descname"><span class="pre">is_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.io.is_binary" title="Link to this definition"></a></dt>
+<dd><p>Check if string only contains binary data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>str</em>) – data to be checked</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True, if <cite>data</cite> is binary. False, if not.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.payloader">
+<span id="stegosphere-payloader-module"></span><h2>stegosphere.payloader module<a class="headerlink" href="#module-stegosphere.payloader" title="Link to this heading"></a></h2>
+<p>Payload framing utilities for binary data encoding.</p>
+<p>Defines framing schemes for prefixing or delimiting binary payloads
+to allow reliable extraction. Includes abstract base class <cite>PayloadFrame</cite>
+and implementations:
+- RawData (no framing)
+- FixedLength (known payload size)
+- FixedHeader (length prefix)
+- Delimiter (sentinel-based)
+- Unary and EliasGamma (self-delimiting codes)</p>
+<p>Used for lossless transmission or embedding of binary payloads.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.Delimiter">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">Delimiter</span></span><a class="headerlink" href="#stegosphere.payloader.Delimiter" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></p>
+<p>Delimiter-based framing: appends a sentinel bit-pattern to mark the payload end.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.Delimiter.decode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.Delimiter.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode by splitting at the sentinel and returning data before it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be extracted from</p></li>
+<li><p><strong>**kwargs</strong> – use <cite>sentinel</cite> as additional argument</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If sentinel is not found in the payload</p>
+</dd>
+<dt class="field-odd">Warns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>UserWarning</strong> – If the sentinel occurs inside the payload data as well.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.Delimiter.encode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.Delimiter.encode" title="Link to this definition"></a></dt>
+<dd><p>Encode by appending the sentinel after the payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be framed</p></li>
+<li><p><strong>**kwargs</strong> – use <cite>sentinel</cite> as additional argument</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Framed payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.EliasGamma">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">EliasGamma</span></span><a class="headerlink" href="#stegosphere.payloader.EliasGamma" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></p>
+<p>Elias Gamma framing: unary-encodes floor(log2(L)), appends binary suffix, then payload.
+No extra parameters needed.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.EliasGamma.decode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.EliasGamma.decode" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Decode by:</dt><dd><ol class="arabic simple">
+<li><p>Read unary prefix to get N (count of leading ‘1’s)</p></li>
+<li><p>Skip zero</p></li>
+<li><p>Read N bits as suffix, reconstruct L = 2^N + int(suffix,2)</p></li>
+<li><p>Read next L bits as payload</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>payload</strong> (<em>str</em>) – Framed payload</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.EliasGamma.encode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.EliasGamma.encode" title="Link to this definition"></a></dt>
+<dd><dl class="simple">
+<dt>Encode by:</dt><dd><ol class="arabic simple">
+<li><p>Let L = len(payload)</p></li>
+<li><p>Compute N = floor(log2(L))</p></li>
+<li><p>Unary prefix = ‘1’<a href="#id1"><span class="problematic" id="id2">*</span></a>N + ‘0’</p></li>
+<li><p>Binary suffix = binary(L) without leading ‘1’</p></li>
+<li><p>Result = prefix + suffix + payload</p></li>
+</ol>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>payload</strong> (<em>str</em>) – Payload to be framed</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Framed payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If length of payload is &lt;=0</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.FixedHeader">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">FixedHeader</span></span><a class="headerlink" href="#stegosphere.payloader.FixedHeader" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></p>
+<p>Fixed-header framing prefixes the payload with a binary length of fixed bit width.
+Use <cite>fixed_header_length</cite> in <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs to specify length.
+Defaults to <cite>stegosphere.payloader.FIXED_HEADER_LENGTH_DEFAULT</cite>.
+32 bit for metadata length should be sufficient for almost all usecases (payload size below 0.5GB).</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.FixedHeader.decode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.FixedHeader.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode by reading the fixed-width header, extracting that many bits as payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be extracted from</p></li>
+<li><p><strong>**kwargs</strong> – use <cite>fixed_header_length</cite> as additional argument</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If payload is shorter than the <cite>fixed_header_length</cite></p>
+</dd>
+<dt class="field-odd">Warns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>UserWarning</strong> – If framed payload is shorter than the indicated length. Will return entire payload.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.FixedHeader.encode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.FixedHeader.encode" title="Link to this definition"></a></dt>
+<dd><p>Encode by prepending the payload length as a binary string of fixed width.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be framed</p></li>
+<li><p><strong>**kwargs</strong> – use <cite>fixed_header_length</cite> as additional argument</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Framed payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If <cite>fixed_header_length</cite> is not a positive integer</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.FixedLength">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">FixedLength</span></span><a class="headerlink" href="#stegosphere.payloader.FixedLength" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></p>
+<p>Fixed length is needed in decoding.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.FixedLength.decode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.FixedLength.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode a framed payload and extract the original data bits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – A framed string to decode.</p></li>
+<li><p><strong>**kwargs</strong> – Method-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The original payload.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.FixedLength.encode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.FixedLength.encode" title="Link to this definition"></a></dt>
+<dd><p>Frame and encode a binary payload string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload string, often binary</p></li>
+<li><p><strong>**kwargs</strong> – Method-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The framed string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.PayloadFrame">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">PayloadFrame</span></span><a class="headerlink" href="#stegosphere.payloader.PayloadFrame" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for payload framing methods.
+Subclasses must implement static encode() and decode() methods.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.PayloadFrame.decode">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.PayloadFrame.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode a framed payload and extract the original data bits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – A framed string to decode.</p></li>
+<li><p><strong>**kwargs</strong> – Method-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The original payload.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.PayloadFrame.encode">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.PayloadFrame.encode" title="Link to this definition"></a></dt>
+<dd><p>Frame and encode a binary payload string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload string, often binary</p></li>
+<li><p><strong>**kwargs</strong> – Method-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The framed string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.RawData">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">RawData</span></span><a class="headerlink" href="#stegosphere.payloader.RawData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></p>
+<p>Equivalent to not using any payload framing</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.RawData.decode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.RawData.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode a framed payload and extract the original data bits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – A framed string to decode.</p></li>
+<li><p><strong>**kwargs</strong> – Method-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The original payload.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.RawData.encode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.RawData.encode" title="Link to this definition"></a></dt>
+<dd><p>Frame and encode a binary payload string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload string, often binary</p></li>
+<li><p><strong>**kwargs</strong> – Method-specific parameters.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The framed string.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.payloader.Unary">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">Unary</span></span><a class="headerlink" href="#stegosphere.payloader.Unary" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">PayloadFrame</span></code></a></p>
+<p>Unary framing: prefixes the payload with a unary-coded length (n ‘1’s and a ‘0’).
+This self-delimiting code requires no extra parameters.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.Unary.decode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.Unary.decode" title="Link to this definition"></a></dt>
+<dd><p>Decode by counting leading ‘1’s up to the first ‘0’, then reading that many bits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>payload</strong> (<em>str</em>) – Payload to be extracted from</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Original payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If terminator is not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="stegosphere.payloader.Unary.encode">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stegosphere.payloader.Unary.encode" title="Link to this definition"></a></dt>
+<dd><p>Encode by prefixing with unary length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>payload</strong> (<em>str</em>) – Payload to be framed</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Framed payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.payloader.decode_framing">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">decode_framing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.decode_framing" title="Link to this definition"></a></dt>
+<dd><p>Decodes payload by removing payload framing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be decoded</p></li>
+<li><p><strong>framing</strong> (<a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><em>stegosphere.payloader.PayloadFrame</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – Framing method to use</p></li>
+<li><p><strong>framing_kwargs</strong> (<em>dict</em><em> | </em><em>None</em>) – specific framing arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decoded binary payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.payloader.encode_framing">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.payloader.</span></span><span class="sig-name descname"><span class="pre">encode_framing</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">framing_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.payloader.encode_framing" title="Link to this definition"></a></dt>
+<dd><p>Encodes a binary payload using specified framing method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload</strong> (<em>str</em>) – Payload to be encoded</p></li>
+<li><p><strong>framing</strong> (<a class="reference internal" href="#stegosphere.payloader.PayloadFrame" title="stegosphere.payloader.PayloadFrame"><em>stegosphere.payloader.PayloadFrame</em></a><em> | </em><em>None</em><em>, </em><em>optional</em>) – Framing method to use</p></li>
+<li><p><strong>framing_kwargs</strong> (<em>dict</em><em> | </em><em>None</em>) – specific framing arguments</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Encoded binary payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.selector">
+<span id="stegosphere-selector-module"></span><h2>stegosphere.selector module<a class="headerlink" href="#module-stegosphere.selector" title="Link to this heading"></a></h2>
+<p>Index selection methods for data embedding.</p>
+<p>Provides deterministic and probabilistic strategies for selecting
+embedding locations based on cost metrics or pseudorandom generators.</p>
+<p>Includes:
+- Greedy selection by cost
+- PRNG-based shuffling and sampling (PCG64DXSM)
+- Weighted random sampling from inverse-costs or arbitrary weights</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.selector.greedy_indices">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.selector.</span></span><span class="sig-name descname"><span class="pre">greedy_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">costs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.selector.greedy_indices" title="Link to this definition"></a></dt>
+<dd><p>Sorts indices by cost and returns the <cite>n</cite> smallest costs’s indices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>costs</strong> (<em>numpy.ndarray</em>) – Cost-function output</p></li>
+<li><p><strong>n</strong> (<em>optional</em>) – Return <cite>n</cite> indices, defaults to -1 for all indices</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array of indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.selector.inverse_cost_greedy_prng_indices">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.selector.</span></span><span class="sig-name descname"><span class="pre">inverse_cost_greedy_prng_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">costs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.selector.inverse_cost_greedy_prng_indices" title="Link to this definition"></a></dt>
+<dd><p>Samples <cite>n</cite> distinct indices from costs, with probability
+proportional to 1/costs (lower‐cost positions more likely).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>costs</strong> (<em>numpy.ndarray</em>) – Array of embedding costs</p></li>
+<li><p><strong>n</strong> – Number of indices to pick</p></li>
+<li><p><strong>key</strong> – Seed for PRNG</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Flat array of indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.selector.prng_indices">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.selector.</span></span><span class="sig-name descname"><span class="pre">prng_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.selector.prng_indices" title="Link to this definition"></a></dt>
+<dd><p>Shuffles indices of array using PCG64DXSM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – size of array to be shuffled</p></li>
+<li><p><strong>key</strong> – seed to use for PRNG</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Shuffled indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.selector.prng_indices_choice">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.selector.</span></span><span class="sig-name descname"><span class="pre">prng_indices_choice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.selector.prng_indices_choice" title="Link to this definition"></a></dt>
+<dd><p>Randomly selects <cite>length</cite> indices using a <cite>key</cite> as a seed, with <cite>size</cite> as upper-bound.
+More efficient for most scenarios than <cite>prng_indices</cite>. Will be merged in the future.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.selector.weighted_greedy_prng_indices">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.selector.</span></span><span class="sig-name descname"><span class="pre">weighted_greedy_prng_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_index</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weights</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.selector.weighted_greedy_prng_indices" title="Link to this definition"></a></dt>
+<dd><p>Samples <cite>n</cite> distinct indices using a PRNG with a specified weight distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>max_index</strong> – Upper bound of indices used</p></li>
+<li><p><strong>weights</strong> (<em>numpy.ndarray</em>) – Weights used for sampling</p></li>
+<li><p><strong>n</strong> – Number of indices to pick</p></li>
+<li><p><strong>key</strong> – Seed for PRNG</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Flat array of indices</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.utils">
+<span id="stegosphere-utils-module"></span><h2>stegosphere.utils module<a class="headerlink" href="#module-stegosphere.utils" title="Link to this heading"></a></h2>
+<p>Module for various utilities</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.utils.dtype_range">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.utils.</span></span><span class="sig-name descname"><span class="pre">dtype_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.utils.dtype_range" title="Link to this definition"></a></dt>
+<dd><p>Gets minimum/maximum value of numpy datatype.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dtype</strong> – dtype to be checked</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Containing minimum and maximum value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – if dtype is not <cite>numpy.integer</cite> or <cite>numpy.floating</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.utils.generate_binary_payload">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.utils.</span></span><span class="sig-name descname"><span class="pre">generate_binary_payload</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.utils.generate_binary_payload" title="Link to this definition"></a></dt>
+<dd><p>Generates a binary payload.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>length</strong> – Length of the payload</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Payload</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-stegosphere" title="Link to this heading"></a></h2>
+<p>Stegosphere is a versatile library for both
+applying steganography (hiding data within media) and
+performing steganalysis (detecting hidden data).
+It provides a flexible framework for any data representable
+as a NumPy array, including images, videos, audios and TrueType fonts.
+Furthermore, multi-file embedding, Hamming codes, payload compression, encryption and visualization are available, as well as a research toolbox for evaluating method performance and security.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.binary_to_data">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.</span></span><span class="sig-name descname"><span class="pre">binary_to_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.binary_to_data" title="Link to this definition"></a></dt>
+<dd><p>Converts binary string to data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>binary</strong> (<em>str</em>) – Binary string to convert</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Data as bytes</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.binary_to_file">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.</span></span><span class="sig-name descname"><span class="pre">binary_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.binary_to_file" title="Link to this definition"></a></dt>
+<dd><p>Write binary data into a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>binary_data</strong> (<em>str</em>) – Binary data to store</p></li>
+<li><p><strong>output_path</strong> (<em>str</em>) – Path to save the output file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.data_to_binary">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.</span></span><span class="sig-name descname"><span class="pre">data_to_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.data_to_binary" title="Link to this definition"></a></dt>
+<dd><p>Converts data (string or bytes) to a binary string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – Data to convert</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TypeError</strong> – If <cite>data</cite> could not be converted</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.file_to_binary">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.</span></span><span class="sig-name descname"><span class="pre">file_to_binary</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.file_to_binary" title="Link to this definition"></a></dt>
+<dd><p>Converts a file into its binary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the input file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary data of the file</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="stegosphere" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="stegosphere.analysis.html" class="btn btn-neutral float-right" title="stegosphere.analysis package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Maximilian J.W. Koch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

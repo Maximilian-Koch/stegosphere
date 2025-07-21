@@ -1,3 +1,7 @@
+"""
+Base module for the container class
+"""
+
 from abc import ABC, abstractmethod
 import os
 

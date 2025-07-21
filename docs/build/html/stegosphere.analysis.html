@@ -1,0 +1,778 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>stegosphere.analysis package &mdash; stegosphere 1.3 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=c55cb9cb"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="stegosphere.containers package" href="stegosphere.containers.html" />
+    <link rel="prev" title="stegosphere package" href="stegosphere.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            stegosphere
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">stegosphere</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="stegosphere.html">stegosphere package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="stegosphere.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">stegosphere.analysis package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.containers.html">stegosphere.containers package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.costs.html">stegosphere.costs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.embeddings.html">stegosphere.embeddings package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.tools.html">stegosphere.tools package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="stegosphere.transform.html">stegosphere.transform package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.html#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.html#module-stegosphere.io">stegosphere.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.html#module-stegosphere.payloader">stegosphere.payloader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.html#module-stegosphere.selector">stegosphere.selector module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.html#module-stegosphere.utils">stegosphere.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="stegosphere.html#module-stegosphere">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">stegosphere</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">stegosphere</a></li>
+          <li class="breadcrumb-item"><a href="stegosphere.html">stegosphere package</a></li>
+      <li class="breadcrumb-item active">stegosphere.analysis package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/stegosphere.analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="stegosphere-analysis-package">
+<h1>stegosphere.analysis package<a class="headerlink" href="#stegosphere-analysis-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-stegosphere.analysis.accuracy">
+<span id="stegosphere-analysis-accuracy-module"></span><h2>stegosphere.analysis.accuracy module<a class="headerlink" href="#module-stegosphere.analysis.accuracy" title="Link to this heading"></a></h2>
+<p>Accuracy metrics for comparing original and extracted binary payloads.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.accuracy.bit_error_rate">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.accuracy.</span></span><span class="sig-name descname"><span class="pre">bit_error_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">after</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.accuracy.bit_error_rate" title="Link to this definition"></a></dt>
+<dd><p>Compute the bit error rate between two binary sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>before</strong> (<em>str</em><em> | </em><em>list</em><em> | </em><em>numpy.ndarray</em>) – Original binary sequence.</p></li>
+<li><p><strong>after</strong> (<em>str</em><em> | </em><em>list</em><em> | </em><em>numpy.ndarray</em>) – Modified binary sequence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Proportion of bits that differ.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If inputs are not the same length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.accuracy.hamming_distance">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.accuracy.</span></span><span class="sig-name descname"><span class="pre">hamming_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">after</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.accuracy.hamming_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute the Hamming distance between two binary strings or arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>before</strong> (<em>str</em><em> | </em><em>list</em><em> | </em><em>numpy.ndarray</em>) – Original binary sequence.</p></li>
+<li><p><strong>after</strong> (<em>str</em><em> | </em><em>list</em><em> | </em><em>numpy.ndarray</em>) – Modified binary sequence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Number of differing bits.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If inputs are not the same length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.accuracy.normalized_correlation">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.accuracy.</span></span><span class="sig-name descname"><span class="pre">normalized_correlation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">before</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">after</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.accuracy.normalized_correlation" title="Link to this definition"></a></dt>
+<dd><p>Compute the normalized correlation between two sequences.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>before</strong> – Original numerical sequence.</p></li>
+<li><p><strong>after</strong> – Modified numerical sequence.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Normalized correlation coefficient. Returns 0 if denominator is zero.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If inputs are not the same length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis.capacity">
+<span id="stegosphere-analysis-capacity-module"></span><h2>stegosphere.analysis.capacity module<a class="headerlink" href="#module-stegosphere.analysis.capacity" title="Link to this heading"></a></h2>
+<p>Measuring how much data can be stored within a cover.</p>
+<p>In future versions, this should include heuristics using the <cite>max_capacity_estimator</cite></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.capacity.bits_per_value">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.capacity.</span></span><span class="sig-name descname"><span class="pre">bits_per_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_capacity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.capacity.bits_per_value" title="Link to this definition"></a></dt>
+<dd><p>Compute bits per host‐value given total capacity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> (<em>numpy.ndarray</em>) – Host array.</p></li>
+<li><p><strong>max_capacity</strong> (<em>int</em><em> | </em><em>float</em>) – Total embedding capacity in bits.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Bits of payload per array element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.capacity.bits_per_value_used">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.capacity.</span></span><span class="sig-name descname"><span class="pre">bits_per_value_used</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">payload_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.capacity.bits_per_value_used" title="Link to this definition"></a></dt>
+<dd><p>Compute actually used bits per host‐value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> (<em>numpy.ndarray</em>) – Host array.</p></li>
+<li><p><strong>payload_size</strong> (<em>int</em><em> | </em><em>float</em>) – Size of embedded payload in bits.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Payload bits per array element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.capacity.max_capacity_estimator">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.capacity.</span></span><span class="sig-name descname"><span class="pre">max_capacity_estimator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.capacity.max_capacity_estimator" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.capacity.payload_ratio">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.capacity.</span></span><span class="sig-name descname"><span class="pre">payload_ratio</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_capacity</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.capacity.payload_ratio" title="Link to this definition"></a></dt>
+<dd><p>Compute payload-to-capacity ratio.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>payload_size</strong> (<em>int</em><em> | </em><em>float</em>) – Size of embedded payload in bits.</p></li>
+<li><p><strong>max_capacity</strong> (<em>int</em><em> | </em><em>float</em>) – Maximum capacity in bits.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Ratio payload_size / max_capacity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis.detectability">
+<span id="stegosphere-analysis-detectability-module"></span><h2>stegosphere.analysis.detectability module<a class="headerlink" href="#module-stegosphere.analysis.detectability" title="Link to this heading"></a></h2>
+<p>A module to detect the likelihood of steganography</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.detectability.random_detector">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.detectability.</span></span><span class="sig-name descname"><span class="pre">random_detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.detectability.random_detector" title="Link to this definition"></a></dt>
+<dd><p>Randomly decide presence of steganography (for testing).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_data</strong> – Any input; ignored in decision.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>0 or 1, chosen uniformly at random.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.detectability.sp">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.detectability.</span></span><span class="sig-name descname"><span class="pre">sp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.detectability.sp" title="Link to this definition"></a></dt>
+<dd><p>Estimate embedding rate (β̂) via Sample Pairs Analysis (Dumitrescu et al. 2002).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>array-like</em>) – 2D array of integer pixel values.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Estimated embedding rate β̂ ∈ [0,1], or -1 if undetermined.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If input is not a 2D array with at least 2 columns.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.detectability.uniformity_detector">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.detectability.</span></span><span class="sig-name descname"><span class="pre">uniformity_detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.detectability.uniformity_detector" title="Link to this definition"></a></dt>
+<dd><p>Detect likelihood of LSB steganography in an RGB image by uniformity of LSBs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>array</strong> (<em>array-like</em>) – H×W×3 RGB image array of integers.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>Score ∈ [0,1], where higher means more uniform LSB distribution</dt><dd><p>(i.e. more likely stego).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If input is not a 3D array with third dimension size 3.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis.efficiency">
+<span id="stegosphere-analysis-efficiency-module"></span><h2>stegosphere.analysis.efficiency module<a class="headerlink" href="#module-stegosphere.analysis.efficiency" title="Link to this heading"></a></h2>
+<p>Module for measuring elapsed and used memory of processes.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.analysis.efficiency.EfficiencyProfiler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.efficiency.</span></span><span class="sig-name descname"><span class="pre">EfficiencyProfiler</span></span><a class="headerlink" href="#stegosphere.analysis.efficiency.EfficiencyProfiler" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.analysis.efficiency.MemoryProfiler">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.efficiency.</span></span><span class="sig-name descname"><span class="pre">MemoryProfiler</span></span><a class="headerlink" href="#stegosphere.analysis.efficiency.MemoryProfiler" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="stegosphere.analysis.efficiency.Timer">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.efficiency.</span></span><span class="sig-name descname"><span class="pre">Timer</span></span><a class="headerlink" href="#stegosphere.analysis.efficiency.Timer" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.efficiency.profile_function">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.efficiency.</span></span><span class="sig-name descname"><span class="pre">profile_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.efficiency.profile_function" title="Link to this definition"></a></dt>
+<dd><p>Decorator to time and measure memory of a function call.
+:returns: result, profiling_info (dict)</p>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis.imperceptibility">
+<span id="stegosphere-analysis-imperceptibility-module"></span><h2>stegosphere.analysis.imperceptibility module<a class="headerlink" href="#module-stegosphere.analysis.imperceptibility" title="Link to this heading"></a></h2>
+<p>Measuring imperceptibility</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.bhattacharyya_divergence">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">bhattacharyya_divergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.bhattacharyya_divergence" title="Link to this definition"></a></dt>
+<dd><p>Compute Bhattacharyya distance between two distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Probability distributions or counts.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Probability distributions or counts.</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em>) – Small constant to avoid log(0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Bhattacharyya distance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.chi_distance">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">chi_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.chi_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute chi-squared distance between two nonnegative arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Input histograms or nonnegative arrays.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Input histograms or nonnegative arrays.</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em>) – Small constant to avoid division by zero.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Chi-squared distance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.euclidean_distance">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">euclidean_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.euclidean_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute Euclidean (L2) distance between two arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Euclidean norm of differences.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.js_divergence">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">js_divergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.js_divergence" title="Link to this definition"></a></dt>
+<dd><p>Compute Jensen-Shannon divergence between two distributions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Probability distributions or counts.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Probability distributions or counts.</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em>) – Small constant to avoid log(0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>JS divergence.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.kl_divergence">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">kl_divergence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.kl_divergence" title="Link to this definition"></a></dt>
+<dd><p>Compute Kullback-Leibler divergence Dₖₗ(P‖Q).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Probability distributions or counts.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Probability distributions or counts.</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em>) – Small constant to avoid log(0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>KL divergence.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.manhattan_distance">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">manhattan_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.manhattan_distance" title="Link to this definition"></a></dt>
+<dd><p>Compute Manhattan (L1) distance between two arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sum of absolute differences.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.mse">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">mse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.mse" title="Link to this definition"></a></dt>
+<dd><p>Compute Mean Squared Error (MSE) between two arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>MSE value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.psnr">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">psnr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.psnr" title="Link to this definition"></a></dt>
+<dd><p>Compute Peak Signal-to-Noise Ratio (PSNR) in decibels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>max_i</strong> (<em>number</em><em>, </em><em>optional</em>) – Maximum possible pixel value.
+Defaults to dtype max of array_1.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PSNR value (inf if zero error).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.results">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsilon</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">psnr_max_i</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.results" title="Link to this definition"></a></dt>
+<dd><p>Compute multiple similarity/divergence/distance measures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>array_2</strong> (<em>array-like</em>) – Input arrays of equal shape.</p></li>
+<li><p><strong>measures</strong> (<em>list</em><em> or </em><em>'all'</em>) – Names of measures to compute.</p></li>
+<li><p><strong>epsilon</strong> (<em>float</em><em>, </em><em>optional</em>) – Small constant for stability.</p></li>
+<li><p><strong>psnr_max_i</strong> (<em>number</em><em>, </em><em>optional</em>) – Max value for PSNR.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>{measure_name: value, …}</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.imperceptibility.ssim">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.imperceptibility.</span></span><span class="sig-name descname"><span class="pre">ssim</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">array_2</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.imperceptibility.ssim" title="Link to this definition"></a></dt>
+<dd><p>Compute Structural Similarity Index (SSIM) between two images.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array_1</strong> (<em>ndarray</em>) – Grayscale or multi-channel images.</p></li>
+<li><p><strong>array_2</strong> (<em>ndarray</em>) – Grayscale or multi-channel images.</p></li>
+<li><p><strong>**kwargs</strong> – Passed to skimage.metrics.structural_similarity.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>SSIM score (and image if full=True).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float or ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If shapes differ.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis.robustness">
+<span id="stegosphere-analysis-robustness-module"></span><h2>stegosphere.analysis.robustness module<a class="headerlink" href="#module-stegosphere.analysis.robustness" title="Link to this heading"></a></h2>
+<p>A module for simulating attacks onto arrays.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.robustness.cropping_attack">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.robustness.</span></span><span class="sig-name descname"><span class="pre">cropping_attack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">crop_fraction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.robustness.cropping_attack" title="Link to this definition"></a></dt>
+<dd><p>Randomly crop and pad back to original size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>ndarray</em>) – Input image.</p></li>
+<li><p><strong>crop_fraction</strong> (<em>float</em>) – Fractional size to crop on each side.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Cropped and resized image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.robustness.gaussian_noise_attack">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.robustness.</span></span><span class="sig-name descname"><span class="pre">gaussian_noise_attack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.robustness.gaussian_noise_attack" title="Link to this definition"></a></dt>
+<dd><p>Apply Gaussian smoothing as a low-pass filter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> (<em>ndarray</em>) – Input image or signal.</p></li>
+<li><p><strong>sigma</strong> (<em>float</em>) – Standard deviation for Gaussian kernel.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Smoothed result.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.robustness.jpeg_compression_attack">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.robustness.</span></span><span class="sig-name descname"><span class="pre">jpeg_compression_attack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.robustness.jpeg_compression_attack" title="Link to this definition"></a></dt>
+<dd><p>Simulate JPEG compression artifacts.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>ndarray</em>) – Input image in BGR or grayscale.</p></li>
+<li><p><strong>quality</strong> (<em>int</em>) – JPEG quality factor (0-100).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Compressed-then-decoded image.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.robustness.random_bit_attack">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.robustness.</span></span><span class="sig-name descname"><span class="pre">random_bit_attack</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.01</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.robustness.random_bit_attack" title="Link to this definition"></a></dt>
+<dd><p>Randomly flip a given fraction of elements in the array by +1 or -1.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>array</strong> (<em>array-like</em>) – Input numeric array.</p></li>
+<li><p><strong>ratio</strong> (<em>float</em>) – Fraction of elements to perturb ∈ [0, 1].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Copy of the input with random ±1 perturbations applied.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If ratio is not between 0 and 1.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis.visualizer">
+<span id="stegosphere-analysis-visualizer-module"></span><h2>stegosphere.analysis.visualizer module<a class="headerlink" href="#module-stegosphere.analysis.visualizer" title="Link to this heading"></a></h2>
+<p>Module to visualize various measures.
+Currently mostly for images.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.visualizer.channel_correlation_plot">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.visualizer.</span></span><span class="sig-name descname"><span class="pre">channel_correlation_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.visualizer.channel_correlation_plot" title="Link to this definition"></a></dt>
+<dd><p>Plot correlation between channels of a multichannel array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Multichannel array, last dim = channels.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.visualizer.difference_heatmap">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.visualizer.</span></span><span class="sig-name descname"><span class="pre">difference_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">orig</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Difference</span> <span class="pre">Heatmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'seismic'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.visualizer.difference_heatmap" title="Link to this definition"></a></dt>
+<dd><p>Plot heatmap of differences between two arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>orig</strong> (<em>ndarray</em>) – Arrays of the same shape.</p></li>
+<li><p><strong>modified</strong> (<em>ndarray</em>) – Arrays of the same shape.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Plot title.</p></li>
+<li><p><strong>cmap</strong> (<em>str</em>) – Colormap.</p></li>
+<li><p><strong>vmin</strong> (<em>float</em><em> or </em><em>None</em>) – Value range for color scaling.</p></li>
+<li><p><strong>vmax</strong> (<em>float</em><em> or </em><em>None</em>) – Value range for color scaling.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.visualizer.histogram_comparison">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.visualizer.</span></span><span class="sig-name descname"><span class="pre">histogram_comparison</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">original</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">modified</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.visualizer.histogram_comparison" title="Link to this definition"></a></dt>
+<dd><p>Compare histograms of two arrays.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>original</strong> (<em>ndarray</em>) – Input arrays.</p></li>
+<li><p><strong>modified</strong> (<em>ndarray</em>) – Input arrays.</p></li>
+<li><p><strong>bins</strong> (<em>int</em>) – Histogram bins.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.visualizer.plot_lsb_frequency">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.visualizer.</span></span><span class="sig-name descname"><span class="pre">plot_lsb_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.visualizer.plot_lsb_frequency" title="Link to this definition"></a></dt>
+<dd><p>Plot LSB frequency of an array (supports multichannel images, audio, etc.).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Input array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="stegosphere.analysis.visualizer.show_side_by_side">
+<span class="sig-prename descclassname"><span class="pre">stegosphere.analysis.visualizer.</span></span><span class="sig-name descname"><span class="pre">show_side_by_side</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">a2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">titles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('Original',</span> <span class="pre">'Modified')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stegosphere.analysis.visualizer.show_side_by_side" title="Link to this definition"></a></dt>
+<dd><p>Show two arrays (e.g., images, spectrograms) side by side.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a1</strong> (<em>ndarray</em>) – Arrays to show.</p></li>
+<li><p><strong>a2</strong> (<em>ndarray</em>) – Arrays to show.</p></li>
+<li><p><strong>titles</strong> (<em>tuple</em>) – Subplot titles.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-stegosphere.analysis">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-stegosphere.analysis" title="Link to this heading"></a></h2>
+<p>The analysis package is a collection of various tools for steganalysis.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="stegosphere.html" class="btn btn-neutral float-left" title="stegosphere package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="stegosphere.containers.html" class="btn btn-neutral float-right" title="stegosphere.containers package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Maximilian J.W. Koch.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

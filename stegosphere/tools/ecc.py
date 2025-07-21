@@ -1,6 +1,20 @@
+"""
+Helper functions for error-correcting codes
+"""
 class Hamming7_4:
+    """
+    Applies Hamming 7-4 code
+    """
     @staticmethod
     def encode(payload):
+        """
+        Encodes payload with Hamming coding
+
+        Args:
+            payload (str): Payload to encode
+        Returns:
+            str: Encoded payload
+        """
         #padding
         remainder = len(payload) % 4
         if remainder != 0:
@@ -19,6 +33,16 @@ class Hamming7_4:
     
     @staticmethod
     def decode(payload):
+        """
+        Decodes Hamming-coded payload
+
+        Args:
+            payload (str): Encoded payload
+        Returns:
+            str: Decoded payload
+        Raises:
+            ValueError: If encoded string length is not a multiple of 7
+        """
         if len(payload) % 7 != 0:
             raise ValueError("Encoded string length must be a multiple of 7.")
 

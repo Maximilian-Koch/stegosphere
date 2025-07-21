@@ -1,97 +1,223 @@
-import numpy as np
+"""
+Measuring imperceptibility
+"""
 
+import numpy as np
 
 from stegosphere import utils
 
+__all__ = ['mse','psnr','ssim','manhattan_distance','euclidean_distance',
+        'chi_distance','kl_divergence','js_divergence',
+        'bhattacharyya_divergence','results']
 
 def mse(array_1, array_2):
     """
-    Calculates the Mean Squared Error (MSE) between the original and encoded array.
+    Compute Mean Squared Error (MSE) between two arrays.
 
-    :return: MSE value
-    :rtype: float
+    Args:
+        array_1, array_2 (array-like): Input arrays of equal shape.
+
+    Returns:
+        float: MSE value.
+
+    Raises:
+        ValueError: If shapes differ.
     """
-    return np.mean((array_1.astype(np.float64) - array_2.astype(np.float64)) ** 2)
-
+    a1 = np.asarray(array_1, dtype=np.float64)
+    a2 = np.asarray(array_2, dtype=np.float64)
+    if a1.shape != a2.shape:
+        raise ValueError("Input arrays must have the same shape")
+    return np.mean((a1 - a2) ** 2)
 
 def psnr(array_1, array_2, max_i=None):
     """
-    Calculates the Peak Signal-to-Noise Ratio (PSNR) between the original and encoded array.
-    
-    :return: PSNR value in dB.
-    :rtype: float
+    Compute Peak Signal-to-Noise Ratio (PSNR) in decibels.
+
+    Args:
+        array_1, array_2 (array-like): Input arrays of equal shape.
+        max_i (number, optional): Maximum possible pixel value.
+            Defaults to dtype max of array_1.
+
+    Returns:
+        float: PSNR value (inf if zero error).
+
+    Raises:
+        ValueError: If shapes differ.
     """
     mse_val = mse(array_1, array_2)
     if mse_val == 0:
         return float('inf')
     if max_i is None:
-        max_i = utils.dtype_range(array_1.dtype)[1]
+        max_i = utils.dtype_range(np.asarray(array_1).dtype)[1]
     return 10 * np.log10((max_i ** 2) / mse_val)
     
 
-def ssim(array_1, array_2):
-    from skimage.metrics import structural_similarity as ss
-    return ss(array_1, array_2)
+def ssim(array_1, array_2, **kwargs):
+    """
+    Compute Structural Similarity Index (SSIM) between two images.
+
+    Args:
+        array_1, array_2 (ndarray): Grayscale or multi-channel images.
+        **kwargs: Passed to skimage.metrics.structural_similarity.
+
+    Returns:
+        float or ndarray: SSIM score (and image if full=True).
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    from skimage.metrics import structural_similarity as _ssim
+    a1 = np.asarray(array_1)
+    a2 = np.asarray(array_2)
+    if a1.shape != a2.shape:
+        raise ValueError("Input images must have the same shape")
+    return _ssim(a1, a2, **kwargs)
 
 
 def manhattan_distance(array_1, array_2):
-    return np.sum(np.abs(array_1-array_2))
+    """
+    Compute Manhattan (L1) distance between two arrays.
+
+    Args:
+        array_1, array_2 (array-like): Input arrays of equal shape.
+
+    Returns:
+        float: Sum of absolute differences.
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    a1 = np.asarray(array_1)
+    a2 = np.asarray(array_2)
+    if a1.shape != a2.shape:
+        raise ValueError("Input arrays must have the same shape")
+    return np.sum(np.abs(a1 - a2))
 
 def euclidean_distance(array_1, array_2):
-    return np.sqrt(np.sum((array_1-array_2)**2))
+    """
+    Compute Euclidean (L2) distance between two arrays.
+
+    Args:
+        array_1, array_2 (array-like): Input arrays of equal shape.
+
+    Returns:
+        float: Euclidean norm of differences.
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    a1 = np.asarray(array_1, dtype=np.float64)
+    a2 = np.asarray(array_2, dtype=np.float64)
+    if a1.shape != a2.shape:
+        raise ValueError("Input arrays must have the same shape")
+    return np.linalg.norm(a1 - a2)
 
 def chi_distance(array_1, array_2, epsilon=1e-10):
-    p = array_1 / (array_1.sum() + epsilon)
-    q = array_2 / (array_2.sum() + epsilon)
+    """
+    Compute chi-squared distance between two nonnegative arrays.
+
+    Args:
+        array_1, array_2 (array-like): Input histograms or nonnegative arrays.
+        epsilon (float): Small constant to avoid division by zero.
+
+    Returns:
+        float: Chi-squared distance.
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    a1 = np.asarray(array_1, dtype=np.float64)
+    a2 = np.asarray(array_2, dtype=np.float64)
+    if a1.shape != a2.shape:
+        raise ValueError("Input arrays must have the same shape")
+    num = (a1 - a2) ** 2
+    den = a1 + a2 + epsilon
+    return np.sum(num / den)
 
 
 def kl_divergence(array_1, array_2, epsilon=1e-10):
     """
-    Kullback-Leibler divergence
-    """
-    p,q = array_1, array_2
+    Compute Kullback-Leibler divergence Dₖₗ(P‖Q).
 
-    #normalize
-    p = p.astype(np.float64)
-    q = q.astype(np.float64)
+    Args:
+        array_1, array_2 (array-like): Probability distributions or counts.
+        epsilon (float): Small constant to avoid log(0).
+
+    Returns:
+        float: KL divergence.
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    p = np.asarray(array_1, dtype=np.float64)
+    q = np.asarray(array_2, dtype=np.float64)
+    if p.shape != q.shape:
+        raise ValueError("Input arrays must have the same shape")
     p /= (p.sum() + epsilon)
     q /= (q.sum() + epsilon)
-
-    kl = np.sum(p * np.log((p + epsilon) / (q + epsilon)))
-    return kl
+    return np.sum(p * np.log((p + epsilon) / (q + epsilon)))
 
 
-def js_divergence(array_1, array_2):
+def js_divergence(array_1, array_2, epsilon=1e-10):
     """
-    Jensen-Shannon divergence
-    """
-    p,q = array_1, array_2
+    Compute Jensen-Shannon divergence between two distributions.
 
-    #normalize
-    p = p.astype(np.float64)
-    q = q.astype(np.float64)
+    Args:
+        array_1, array_2 (array-like): Probability distributions or counts.
+        epsilon (float): Small constant to avoid log(0).
+
+    Returns:
+        float: JS divergence.
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    p = np.asarray(array_1, dtype=np.float64)
+    q = np.asarray(array_2, dtype=np.float64)
+    if p.shape != q.shape:
+        raise ValueError("Input arrays must have the same shape")
     p /= (p.sum() + epsilon)
     q /= (q.sum() + epsilon)
-    
     m = 0.5 * (p + q)
-    kl_pm = np.sum(p * np.log((p + epsilon) / (m + epsilon)))
-    kl_qm = np.sum(q * np.log((q + epsilon) / (m + epsilon)))
-    js = 0.5 * (kl_pm + kl_qm)
-    return js
+    return 0.5 * (np.sum(p * np.log((p + epsilon) / (m + epsilon))) +
+                  np.sum(q * np.log((q + epsilon) / (m + epsilon))))
 
-def bhattacharyya_divergence(array_1, array_2):
-    p,q = array_1, array_2
+def bhattacharyya_divergence(array_1, array_2, epsilon=1e-10):
+    """
+    Compute Bhattacharyya distance between two distributions.
 
-    #normalize
-    p = p.astype(np.float64)
-    q = q.astype(np.float64)
+    Args:
+        array_1, array_2 (array-like): Probability distributions or counts.
+        epsilon (float): Small constant to avoid log(0).
+
+    Returns:
+        float: Bhattacharyya distance.
+
+    Raises:
+        ValueError: If shapes differ.
+    """
+    p = np.asarray(array_1, dtype=np.float64)
+    q = np.asarray(array_2, dtype=np.float64)
+    if p.shape != q.shape:
+        raise ValueError("Input arrays must have the same shape")
     p /= (p.sum() + epsilon)
     q /= (q.sum() + epsilon)
-    bc = np.sum(np.sqrt(p*q))
-    ba = -np.log(bc+epsilon)
-    return ba
+    bc = np.sum(np.sqrt(p * q))
+    return -np.log(bc + epsilon)
 
 def results(array_1, array_2, measures='all', epsilon=1e-10, psnr_max_i=None):
+    """
+    Compute multiple similarity/divergence/distance measures.
+
+    Args:
+        array_1, array_2 (array-like): Input arrays of equal shape.
+        measures (list or 'all'): Names of measures to compute.
+        epsilon (float, optional): Small constant for stability.
+        psnr_max_i (number, optional): Max value for PSNR.
+
+    Returns:
+        dict: {measure_name: value, ...}
+    """
     if measures == 'all' :
         measures = ['mse','psnr','ssim','kl','js','bhattacharyya','manhattan','euclidean','chi']
     #mse, psnr, ssim, kl, js, bhattacharyya, manhattan, euclidean, chi

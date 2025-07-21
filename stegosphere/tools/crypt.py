@@ -1,10 +1,28 @@
+"""
+Helper functions for applying cryptography.
+"""
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import os
 import binascii
 
 class AES_GCM:
+    """
+    Applies AES-GCM
+    """
     @staticmethod
     def encrypt(payload, key, iv=None):
+        """
+        Encrypts payload using AES-GCM with `key`
+
+        Args:
+            payload (str | bytes): Payload to encrypt
+            key (str | bytes): Encryption key
+            iv (bytes | None, optional): IV, else defaults to `os.urandom(12)`
+        Returns:
+            str: encrypted payload
+        Raises:
+            AssertionError: If IV is not 12 bytes
+        """
         if isinstance(payload, str):
             payload = payload.encode('utf-8')
         if isinstance(key, str):
@@ -20,6 +38,15 @@ class AES_GCM:
 
     @staticmethod
     def decrypt(ciphertext, key):
+        """
+        Decrypts encrypted text using AES-GCM with `key`
+
+        Args:
+            ciphertext (str | bytes): Cipher text to decrypt
+            key (str | bytes): Encryption key
+        Returns:
+            str: decrypted payload
+        """
         if isinstance(ciphertext, str):
             ciphertext = binascii.unhexlify(ciphertext)
         if isinstance(key, str):

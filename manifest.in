@@ -1,3 +1,4 @@
 include README.md
-include stegosphere/methods/backend/*.c
-include stegosphere/methods/backend/*.so
+include stegosphere/backend/*.c
+include stegosphere/backend/*.dll
+include stegosphere/logo_small_stego.png
