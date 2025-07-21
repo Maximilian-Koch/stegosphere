@@ -1,4 +1,0 @@
-include README.md
-include stegosphere/backend/*.c
-include stegosphere/backend/*.dll
-include stegosphere/logo_small_stego.png
